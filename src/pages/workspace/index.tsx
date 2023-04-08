@@ -10,6 +10,7 @@ import { UploadFileView } from "../../components/UploadFileView/UploadFileView";
 import { startRetrievingRecords } from "../../store/audioLogs/audioLogsThunks";
 import { current } from "@reduxjs/toolkit";
 import { SelectedRecord } from "../../components/SelectedRecord/SelectedRecord";
+import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 
 export default function Index() {
   const router = useRouter();
@@ -31,10 +32,10 @@ export default function Index() {
       {uid && isAuth && (
         <main className={styles.workspace}>
           <AsideWorkspace />
-          {currentScreen === 0 && <HomeWorkspace />}
-          {currentScreen === 1 && <AudioRecorder />}
-          {currentScreen === 2 && <UploadFileView />}
-          {currentScreen === 3 && <SelectedRecord />}
+          {currentScreen === WorkSpaceScreen.Home && <HomeWorkspace />}
+          {currentScreen === WorkSpaceScreen.Record && <AudioRecorder />}
+          {currentScreen === WorkSpaceScreen.Upload && <UploadFileView />}
+          {currentScreen === WorkSpaceScreen.selectedRecord && <SelectedRecord />}
         </main>
       )}
     </>

@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentScreen } from "../../store/auth/authSlice";
 import { startUserLogout } from "../../store/auth/authThunks";
 import { startSettingCurrentRecord } from "../../store/audioLogs/audioLogsThunks";
+import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
+import { Record } from "@/interfaces/Record";
 
 export function AsideWorkspace() {
   const dispatch = useDispatch();
   const { audioRecords } = useSelector((state) => state.records);
 
   const setHomeScreen = () => {
-    dispatch(setCurrentScreen(0));
+    dispatch(setCurrentScreen(WorkSpaceScreen.Home));
   };
 
   const handleLogOut = () => {
@@ -34,10 +36,10 @@ export function AsideWorkspace() {
           </p>
         ) : (
           <div className={styles.asideLogsHistory}>
-            {audioRecords.map((e) => (
+            {audioRecords.map((e: Record) => (
               <button key={e.id} onClick={() => handleButtonClick(e.id)}>
                 <p>{e.title}</p>
-                <span>{e.creationDate}</span>
+                <span>{e.creationDate.toString()}</span>
               </button>
             ))}
           </div>

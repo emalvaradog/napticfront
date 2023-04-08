@@ -1,26 +1,12 @@
+import { Record } from "@/interfaces/Record";
 import { createSlice } from "@reduxjs/toolkit";
 
-// let timestamp = {
-//   start: Number,
-//   content: String,
-// };
-
-// let logType = {
-//   id: "id",
-//   audios: ["url"],
-//   chatHistory: [{ role: "user/assistant", content: "message" }],
-//   transcription: { text: "text", timestamps: [timestamp] },
-//   uploadedBy: "uid",
-//   title: "title",
-//   creationDate: "date",
-// };
-
-// let audioRecords = [{ logType }];
+type audiosStatus = "loading" | "loaded" | "error" | null;
 
 const initialState = {
-  audioRecords: [], // array with audio objects
-  selectedRecord: null, // log type object
-  audiosStatus: null, // loading, loaded, error
+  audioRecords: [] as Record[],
+  selectedRecord: null as Record | null, 
+  audiosStatus: null as audiosStatus,
 };
 
 export const audioRecordsSlice = createSlice({
@@ -50,11 +36,6 @@ export const audioRecordsSlice = createSlice({
     },
     pushNewAudioRecord: (state, { payload }) => {
       state.audioRecords.push(payload);
-    },
-    clearAudioRecords: (state) => {
-      state.audioRecords = [];
-      state.selectedRecord = null;
-      state.audiosStatus = null;
     },
   },
 });

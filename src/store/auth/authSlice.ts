@@ -1,22 +1,24 @@
+import { AuthState, AuthStatus } from "@/interfaces/AuthInterfaces";
+import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState: AuthState = {
   uid: null,
   name: null,
   email: null,
   token: null,
   isAuth: false,
-  authStatus: "not-authenticated", // not-authenticated, authenticating, authenticated, error
+  authStatus: AuthStatus.NotAuthenticated,
   error: null,
-  currentScreen: 0,
+  currentScreen: WorkSpaceScreen.Home,
 };
 
-export const counterSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     login: (state, { payload }) => {
-      state.authStatus = "authenticated";
+      state.authStatus = AuthStatus.Authenticated;
       state.isAuth = true;
       state.uid = payload.uid;
       state.name = payload.name;
@@ -24,7 +26,7 @@ export const counterSlice = createSlice({
       state.token = payload.token;
     },
     logout: (state, { payload }) => {
-      state.authStatus = "not-authenticated";
+      state.authStatus = AuthStatus.NotAuthenticated;
       state.isAuth = false;
       state.uid = null;
       state.name = null;
@@ -32,7 +34,7 @@ export const counterSlice = createSlice({
       state.token = null;
     },
     validateCredentials: (state, { payload }) => {
-      state.authStatus = "authenticating";
+      state.authStatus = AuthStatus.Authenticating;
     },
     setCurrentScreen(state, { payload }) {
       state.currentScreen = payload;
@@ -40,5 +42,4 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { login, logout, validateCredentials, setCurrentScreen } =
-  counterSlice.actions;
+export const { login, logout, validateCredentials, setCurrentScreen } = authSlice.actions;

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "./auth/authSlice";
+import { authSlice } from "./auth/authSlice";
 import { audioRecordsSlice } from "./audioLogs/audioLogsSlice";
 
 export const store = configureStore({
   reducer: {
-    auth: counterSlice.reducer,
+    auth: authSlice.reducer,
     records: audioRecordsSlice.reducer,
   },
 });

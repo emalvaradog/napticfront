@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
 import styles from "./styles.module.scss";
 import { setCurrentScreen } from "../../store/auth/authSlice";
+import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 
 export function HomeWorkspace() {
   const dispatch = useDispatch();
 
-  function handleScreen(e) {
-    const { value } = e.target;
-    dispatch(setCurrentScreen(parseInt(value)));
+  function handleScreen(screen: WorkSpaceScreen) {
+    dispatch(setCurrentScreen(screen));
   }
 
   return (
@@ -20,10 +20,10 @@ export function HomeWorkspace() {
         </p>
       </div>
       <div className={styles.sectionButtons}>
-        <button value="1" onClick={handleScreen}>
+        <button onClick={() => handleScreen(WorkSpaceScreen.Record)}>
           Comenzar una grabación
         </button>
-        <button value="2" onClick={handleScreen}>
+        <button onClick={() => handleScreen(WorkSpaceScreen.Upload)}>
           Subir archivos de audio
         </button>
       </div>

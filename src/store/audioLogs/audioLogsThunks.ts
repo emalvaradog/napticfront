@@ -11,11 +11,13 @@ import {
   uploadFile2Storage,
 } from "../../firebase/storageProviders";
 import { setCurrentScreen } from "../auth/authSlice";
+import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
+import { Dispatch } from "redux";
 
 const SERVER_URL = "https://127.0.0.1:8080/upload";
 
 export const startRetrievingRecords = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: Dispatch, getState) => {
     const { uid } = getState().auth;
 
     dispatch(setLoadingAudiosStatus());
@@ -23,7 +25,7 @@ export const startRetrievingRecords = () => {
     try {
       const docs = await getUserRecords(uid);
       dispatch(setAudioRecords(docs));
-    } catch (error) {
+    } catch (error: any) {
       dispatch(setAudioStatusError(error.message));
       console.log(error);
     }
@@ -34,7 +36,7 @@ export const startCreatingNewRecord = ({
   title = "Nueva grabación",
   audioFile,
 }) => {
-  return async (dispatch, getState) => {
+  return async (dispatch: Dispatch, getState) => {
     const { uid } = getState().auth;
     dispatch(setLoadingAudiosStatus());
 
@@ -60,9 +62,10 @@ export const startCreatingNewRecord = ({
       fetch(SERVER_URL, {
         method: "POST",
         body: formData,
-      });
+      }).then((response) => {
+        dispatch(setCurrentScreen(WorkSpaceScreen.selectedRecord));
+      }); 
 
-      dispatch(setCurrentScreen(3));
     } catch (error) {}
 
     setTimeout(() => {
@@ -71,13 +74,13 @@ export const startCreatingNewRecord = ({
   };
 };
 
-export const startSettingCurrentRecord = (id) => {
-  return async (dispatch, getState) => {
+export const startSettingCurrentRecord = (id: string) => {
+  return async (dispatch: Dispatch, getState) => {
     const { audioRecords } = getState().records;
 
     const selectedRecord = audioRecords.find((element) => element.id === id);
 
     dispatch(setSelectedRecord(selectedRecord));
-    dispatch(setCurrentScreen(3));
+    dispatch(setCurrentScreen(WorkSpaceScreen.selectedRecord));
   };
 };
