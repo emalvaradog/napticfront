@@ -38,9 +38,9 @@ export function NapticChatBot({
   }
 
   return (
-    <div className={styles.chat}>
+    <div className={styles.chat} style={{ height: "100%" }}>
       <div className={styles.chatHeader}>
-        <h1>Naptic Chat</h1>
+        <h1>Naptic bot</h1>
       </div>
       <div className={styles.chatContent}>
         <div className={styles.chatContentContainer} ref={chatContentRef}>

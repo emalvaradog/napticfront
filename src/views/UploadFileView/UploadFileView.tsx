@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { startCreatingNewRecord } from "../../store/audioLogs/audioLogsThunks";
 import { RootState } from "@/store/store";
-import { Loader } from "../Loader/Loader";
+import { Loader } from "@/components";
 
 export function UploadFileView() {
   const [files, setFiles] = useState<File[]>([]);

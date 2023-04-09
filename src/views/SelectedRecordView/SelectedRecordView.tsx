@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { NapticChatBot } from "../NapticChatBot/NapticChatBot";
-import { AudioVisualizer } from "../AudioVisualizer/AudioVisualizer";
-import { TranscriptionVisualizer } from "../TranscriptionVisualizer/TranscriptionVisualizer";
 import { RootState } from "../../store/store";
 import { useRouter } from "next/router";
-import { Loader } from "../Loader/Loader";
+import { Loader } from "../../components/Loader/Loader";
+import {
+  AudioVisualizer,
+  NapticChatBot,
+  TranscriptionVisualizer,
+} from "@/components";
 
-export function SelectedRecord() {
+export function SelectedRecordView() {
   const router = useRouter();
   const { selectedRecord, audiosStatus } = useSelector(
     (state: RootState) => state.records

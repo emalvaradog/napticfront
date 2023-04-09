@@ -1,0 +1,35 @@
+@import  '@/styles/variables.module.scss';
+
+.section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10rem;
+}
+
+.recorder {
+  width: 50%;
+}
+
+.section textarea {
+  width:80%;
+  font-family: inherit;
+  word-wrap: break-word;
+  text-align:center;
+  background-color: transparent;
+  font-size: 4.4rem;
+  font-weight: 500;
+  border: none;
+  outline:none;
+  resize: none;
+}
+
+.section p {
+  color: $secondary-font-color;
+  width: 60%;
+}

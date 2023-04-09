@@ -16,7 +16,7 @@ export function TranscriptionVisualizer({
   };
 
   return (
-    <div className={styles.transcript}>
+    <div className={styles.transcript} style={{ height: "100%" }}>
       <div className={styles.transcriptHeader}>
         <p>Transcripción</p>
         <div className={styles.copy} onClick={copyTextToClipboard}>

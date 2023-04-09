@@ -6,13 +6,13 @@ $chat-radius: .8rem;
   height: 100%;
   display: grid;
   grid-template-rows: 6rem 1fr;
+  grid-template-columns: 1fr;
   word-wrap: break-word;
 
   &Header {
     width: 100%;
     display: flex;
     align-items: center;
-    background-color: rgb(181, 181, 181);
     padding: 0 2.4rem;
     color: $main-font-color;
     border-radius: $chat-radius $chat-radius 0 0;

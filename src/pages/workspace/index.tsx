@@ -1,42 +1,46 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import styles from "../../styles/Workspace.module.scss";
-import { HomeWorkspace } from "../../components/HomeWorkspace/HomeWorkspace";
-import { AsideWorkspace } from "../../components/AsideWorkspace/AsideWorkspace";
-import { AudioRecorder } from "../../components/AudioRecorder/AudioRecorder";
-import { useState } from "react";
-import { UploadFileView } from "@/components/UploadFileView/UploadFileView";
-import { startRetrievingRecords } from "../../store/audioLogs/audioLogsThunks";
-import { current } from "@reduxjs/toolkit";
-import { SelectedRecord } from "@/components/SelectedRecord/SelectedRecord";
+
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { RootState } from "@/store/store";
-import { withAuth } from "@/components/withAuth.js/withAuth";
+import { WorkspaceLayout } from "@/Layouts/WorkspaceLayout/WorkspaceLayout";
+import {
+  AudioRecorderView,
+  HomeWorkspaceView,
+  SelectedRecordView,
+  UploadFileView,
+} from "@/views";
+import { AsideWorkspace, withAuth } from "@/components";
 
 function Index() {
-  const router = useRouter();
-
-  const { uid, email, isAuth } = useSelector((state: RootState) => state.auth);
+  const { uid, isAuth } = useSelector((state: RootState) => state.auth);
 
   const currentScreen: WorkSpaceScreen = useSelector(
     (state: RootState) => state.auth.currentScreen
   ) as WorkSpaceScreen;
 
+  function handleCurrentScreen() {
+    switch (currentScreen) {
+      case WorkSpaceScreen.Home:
+        return <HomeWorkspaceView />;
+      case WorkSpaceScreen.Record:
+        return <AudioRecorderView />;
+      case WorkSpaceScreen.Upload:
+        return <UploadFileView />;
+      case WorkSpaceScreen.SelectedRecord:
+        return <SelectedRecordView />;
+      default:
+        return <HomeWorkspaceView />;
+    }
+  }
+
   return (
     <>
       {uid && isAuth && (
-        <main className={styles.workspace}>
-          <AsideWorkspace />
-          {currentScreen === WorkSpaceScreen[WorkSpaceScreen.Home] && (
-            <HomeWorkspace />
-          )}
-          {currentScreen === WorkSpaceScreen.Record && <AudioRecorder />}
-          {currentScreen === WorkSpaceScreen.Upload && <UploadFileView />}
-          {currentScreen === WorkSpaceScreen.SelectedRecord && (
-            <SelectedRecord />
-          )}
-        </main>
+        <WorkspaceLayout
+          aside={AsideWorkspace}
+          mainContent={handleCurrentScreen}
+        />
       )}
     </>
   );

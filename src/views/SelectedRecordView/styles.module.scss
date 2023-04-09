@@ -1,18 +1,24 @@
-
 .section {
   width: 100%;
-  height: 100vh;
-  display: flex;
-  // grid-template-columns: 1fr;
-  // grid-template-rows: .1fr auto;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: .1fr 1fr;
   position: relative;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 4rem;
-  padding: 4rem;
+  padding: 3rem;
   
   &Title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-size: 2.4rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     textarea {
       width:80%;
       font-family: inherit;
@@ -25,44 +31,39 @@
       outline:none;
       resize: none;
     }
-    width: 100%;
-    height: 25vh;
-    display: flex;
-    font-size: 2.4rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
 
   &Container {
     width: 100%;
-    height: 75vh;
+    height: 100%;
     display: grid;
     grid-template-areas:
-      "audio chat"
-      "transcription chat"
+      "audio audio"
       "transcription chat";
     grid-template-columns: .5fr .5fr;
-    grid-template-rows: .1fr .9fr;
+    grid-template-rows: .1fr 1fr;
     gap: 2rem;
-    justify-content: center;
+    overflow: auto;
 
     &Chat {
       grid-area: chat;
       width: 100%;
       height: 100%;
       background-color: rgb(230, 230, 230);
+      overflow: auto;
     }
 
     &Audio{
+      justify-self: center;
       grid-area: audio;
-      width: 100%;
+      width: 50%;
       height: 100%;
     }  
 
     &Transcription {
       width: 100%;
       height: 100%;
+      overflow: auto;
       grid-area: transcription;
     }
   }

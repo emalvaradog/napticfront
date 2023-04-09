@@ -6,9 +6,9 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 6rem 1fr;
-  overflow: hidden;
   word-wrap: break-word;
-
+  
+  overflow: auto;
   &Header {
     width: 100%;
     display: flex;

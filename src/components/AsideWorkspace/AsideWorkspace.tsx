@@ -9,6 +9,7 @@ import {
 import { useEffect } from "react";
 import { RootState } from "@/store/store";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
+import { RecordItem } from "../RecordItem/RecordItem";
 
 export function AsideWorkspace() {
   const dispatch = useDispatch();
@@ -43,9 +44,6 @@ export function AsideWorkspace() {
 
   return (
     <aside className={styles.aside}>
-      <div className={styles.asideHeader}>
-        <h1 onClick={setHomeScreen}>naptic</h1>
-      </div>
       <div className={styles.asideLogs}>
         <h1>Tu historial de audios</h1>
         {audioRecords.length == 0 ? (
@@ -56,22 +54,24 @@ export function AsideWorkspace() {
         ) : (
           <div className={styles.asideLogsHistory}>
             {audioRecords.map((log) => (
-              <button key={log.id} onClick={() => handleButtonClick(log.id)}>
-                <p>{log.title}</p>
-                <span>{formatDate(log.creationDate)}</span>
-              </button>
+              <RecordItem
+                key={log.id}
+                onClick={() => handleButtonClick(log.id)}
+                title={log.title}
+                date={formatDate(log.creationDate)}
+              />
             ))}
           </div>
         )}
       </div>
       <div className={styles.asideControls}>
-        <div className={styles.asideControlsNewLog} onClick={setHomeScreen}>
+        <div className={styles.asideControlsItem} onClick={setHomeScreen}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 92" id="plus">
             <path d="M72.5 46.5c0 2.5-2 4.5-4.5 4.5H50v17c0 2.5-2 4.5-4.5 4.5S41 70.5 41 68V51H24c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5h17V24c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v18h18c2.5 0 4.5 2 4.5 4.5z"></path>
           </svg>
           <p>Nueva grabación</p>
         </div>
-        <div className={styles.asideControlsLogout} onClick={handleLogOut}>
+        <div className={styles.asideControlsItem} onClick={handleLogOut}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
