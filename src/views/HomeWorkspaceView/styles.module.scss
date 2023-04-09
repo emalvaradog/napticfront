@@ -22,13 +22,13 @@
 .sectionText h1 {
   font-size: 4.4rem;
   font-weight: 500;
-  color: $main-font-color;
+  color: $main-text;
 }
 
 .sectionText p {
   font-weight: 400;
   font-size: 2rem;
-  color: $secondary-font-color;
+  color: $main-light-text;
   width: 70%;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .sectionButtons button {
-  color: $main-font-color;
+  color: $main-text;
   font-size: 1.8rem;
   padding: 1.6rem 2.6rem;
   border-radius: .8rem;

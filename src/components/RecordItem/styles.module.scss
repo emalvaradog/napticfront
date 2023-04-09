@@ -12,18 +12,18 @@
   word-wrap: break-word;
   border: none;
   background-color: transparent;
-  color: $main-font-color;
+  color: $main-text;
   cursor: pointer;
 
   &:hover {
     border-radius: 2.5rem;
     padding: .8rem 1rem;
-    border: 1px solid #6956bb;
+    border: 1px solid $primary-color;
   }
 
   svg {
     width: 2.6rem;
-    fill: #6956bb;
+    fill: $primary-color;
   }
 
   &Data {
@@ -33,7 +33,7 @@
   
     span {
       font-size: 1.4rem;
-      color: $secondary-font-color;
+      color: $main-light-text;
     }
   }
 }

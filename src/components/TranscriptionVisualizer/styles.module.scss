@@ -7,29 +7,34 @@
   grid-template-columns: 1fr;
   grid-template-rows: 6rem 1fr;
   word-wrap: break-word;
-  
   overflow: auto;
+  border: 1px solid $main-light-text;
+  border-radius: 3rem;
+
   &Header {
     width: 100%;
     display: flex;
-    background-color: rgb(181, 181, 181);
     justify-content: space-between;
     padding: 0 2.4rem;
     align-items: center;
     font-weight: 500;
     font-size: 2rem;
     gap: 2rem;
-    color: $main-font-color;
+    color: $primary-color;
 
-    .copy {
+    &Buttons {
       display: flex;
       gap: 1rem;
+      flex-direction: row;
+    }
+    
+    .item {
+      display: flex;
       align-items: center;
       cursor: pointer;
-      justify-self: flex-end;
       svg {
-        width: 3rem;
-        fill:$main-font-color;
+        width: 3.2rem;
+        fill: $primary-color;
       }
     }
     
@@ -37,7 +42,6 @@
 
   &Content {
     width: 100%;
-    background-color: #d9d9d9;
     word-wrap: break-word;
     overflow-y: auto;
     
@@ -50,7 +54,7 @@
       p {
         font-size: 1.6rem;
         font-weight: 400;
-        color:$secondary-font-color;
+        color:$main-text;
       }
     }
     

@@ -65,14 +65,14 @@
   align-items: center;
   cursor: pointer;
   p {
-    color: $light-dark-color;
+    color: $main-light-text;
     font-size: 1.8rem;
   }
 
   svg {
     width: 4.4rem;
     height: 100%;
-    fill: $light-dark-color;
+    fill: $main-light-text;
     &:hover {
       transform: scale(1.15);
       transition: all .1s ease;

@@ -3,12 +3,15 @@ $mobile-header-height: 6rem;
 $desktop-header-height: 8rem;
 
 // Colors
-$main-font-color: #2a2a2a;
-$secondary-font-color: #4a4a4a;
-$light-dark-color: #a4a4a4;
+$main-text: #383838;
+$main-light-text: #afafaf;
 
-$accent-color: #3688cc;
+$secondary-text: #6a6a6a;
+$secondary-light-text: #dcdcdc;
 
-:export {
-  accent-color: $accent-color;
-}
+$primary-color: #6956BB;
+$light-primary: #9082CB;
+
+$secondary-color: #7A98DE;
+$light-secondary: #A6B9E0;
+
