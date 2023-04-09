@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithPopup,
+  setPersistence,
 } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();

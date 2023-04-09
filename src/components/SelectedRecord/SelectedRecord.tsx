@@ -15,6 +15,19 @@ export function SelectedRecord() {
     (state: RootState) => state.records
   );
   const [textTimestamps, setTextTimestamps] = useState("");
+  const [title, setTitle] = useState(selectedRecord?.title);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const formatDate = (date: string | undefined) => {
+    if (date) {
+      const dateArr = date.split(" ");
+      const dateFormatted = dateArr[2] + " " + dateArr[1] + " " + dateArr[3];
+      return dateFormatted;
+    }
+  };
 
   useEffect(() => {
     if (!selectedRecord) {
@@ -29,8 +42,8 @@ export function SelectedRecord() {
       ) : (
         <>
           <div className={styles.sectionTitle}>
-            <h1>{selectedRecord?.title}</h1>
-            <p>{selectedRecord?.creationDate}</p>
+            <textarea rows={1}>{title}</textarea>
+            <p>{formatDate(selectedRecord?.creationDate)}</p>
           </div>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionContainerAudio}>

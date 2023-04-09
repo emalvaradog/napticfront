@@ -99,13 +99,14 @@ export const startSettingCurrentRecord = (id: string) => {
       dispatch(setAudiosStatus("loading"));
       const { audioRecords } = getState().records;
       const data = await getRecordFromId(id);
-      console.log(data);
 
       audioRecords.map((record) => {
-        if (record.id === data.id) {
-          return data;
+        if (data) {
+          if (record.id === data.id) {
+            return data;
+          }
+          return record;
         }
-        return record;
       });
 
       dispatch(setSelectedRecord(data));

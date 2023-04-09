@@ -12,9 +12,13 @@ export default function Login() {
   const dispatch = useDispatch();
 
   function handleGoogleLogin() {
-    // @ts-ignore
+    // @ts-ignorek
     dispatch(startGoogleSignIn());
   }
+
+  // function handleGoogleLogin() {
+  //   return;
+  // }
 
   useEffect(() => {
     if (isAuth && uid) router.push("/workspace");
@@ -34,6 +38,7 @@ export default function Login() {
             <button
               className={styles.socialLoginElement}
               onClick={handleGoogleLogin}
+              // disabled={true}
             >
               <svg
                 className={styles.googleIcon}

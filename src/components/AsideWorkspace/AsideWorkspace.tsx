@@ -6,7 +6,6 @@ import {
   startRetrievingRecords,
   startSettingCurrentRecord,
 } from "../../store/audioLogs/audioLogsThunks";
-import { current } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { RootState } from "@/store/store";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
@@ -31,6 +30,12 @@ export function AsideWorkspace() {
     dispatch(startUserLogout());
   };
 
+  const formatDate = (date: string) => {
+    const dateArr = date.split(" ");
+    const dateFormatted = dateArr[2] + " " + dateArr[1] + " " + dateArr[3];
+    return dateFormatted;
+  };
+
   const handleButtonClick = (id: string) => {
     // @ts-ignore
     dispatch(startSettingCurrentRecord(id));
@@ -53,7 +58,7 @@ export function AsideWorkspace() {
             {audioRecords.map((log) => (
               <button key={log.id} onClick={() => handleButtonClick(log.id)}>
                 <p>{log.title}</p>
-                <span>{log.creationDate.toLocaleString()}</span>
+                <span>{formatDate(log.creationDate)}</span>
               </button>
             ))}
           </div>

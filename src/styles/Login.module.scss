@@ -62,6 +62,11 @@
   background-color: #f9f9f9;
   color: $secondary-font-color;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
 }
 
 .googleIcon {

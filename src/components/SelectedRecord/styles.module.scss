@@ -13,6 +13,18 @@
   padding: 4rem;
   
   &Title {
+    textarea {
+      width:80%;
+      font-family: inherit;
+      word-wrap: break-word;
+      text-align:center;
+      background-color: transparent;
+      font-size: 4.4rem;
+      font-weight: 500;
+      border: none;
+      outline:none;
+      resize: none;
+    }
     width: 100%;
     height: 25vh;
     display: flex;
@@ -34,7 +46,6 @@
     grid-template-rows: .1fr .9fr;
     gap: 2rem;
     justify-content: center;
-    background-color: blue;
 
     &Chat {
       grid-area: chat;
@@ -47,7 +58,6 @@
       grid-area: audio;
       width: 100%;
       height: 100%;
-      background-color: red;      
     }  
 
     &Transcription {

@@ -1,3 +1,4 @@
+import { FirebaseApp, FirebaseAuth } from "@/firebase/config";
 import { AuthState, AuthStatus } from "@/interfaces/AuthInterfaces";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { createSlice } from "@reduxjs/toolkit";

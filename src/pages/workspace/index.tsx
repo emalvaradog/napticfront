@@ -12,8 +12,9 @@ import { current } from "@reduxjs/toolkit";
 import { SelectedRecord } from "@/components/SelectedRecord/SelectedRecord";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { RootState } from "@/store/store";
+import { withAuth } from "@/components/withAuth.js/withAuth";
 
-export default function Index() {
+function Index() {
   const router = useRouter();
 
   const { uid, email, isAuth } = useSelector((state: RootState) => state.auth);
@@ -21,10 +22,6 @@ export default function Index() {
   const currentScreen: WorkSpaceScreen = useSelector(
     (state: RootState) => state.auth.currentScreen
   ) as WorkSpaceScreen;
-
-  useEffect(() => {
-    if (!uid && !isAuth) router.push("/login");
-  }, [uid]);
 
   return (
     <>
@@ -44,3 +41,6 @@ export default function Index() {
     </>
   );
 }
+
+// @ts-ignore
+export default withAuth(Index);
