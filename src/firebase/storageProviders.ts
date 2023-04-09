@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -63,5 +64,17 @@ export const updateRecordChat = async (recordId: string, chat: Message) => {
     return true;
   } catch (error) {
     return false;
+  }
+};
+
+export const getRecordFromId = async (recordId: string) => {
+  try {
+    const recordRef = doc(FirebaseDB, "records", recordId);
+    const recordDoc = await getDoc(recordRef);
+    if (recordDoc.exists()) {
+      return recordDoc.data();
+    }
+  } catch (e) {
+    console.log(e);
   }
 };

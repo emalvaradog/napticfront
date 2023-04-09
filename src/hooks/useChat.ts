@@ -14,6 +14,7 @@ export const useChat = (recordId?: string, chat?: Message[]) => {
   useEffect(() => {
     // @ts-ignore
     dispatch(startUpdatingChatRecord(chatHistory));
+    console.log(chatHistory);
   }, [chatHistory]);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export const useChat = (recordId?: string, chat?: Message[]) => {
       content: { role: "assistant", content: "" },
     } as Message;
 
-    setChatHistory([...chatHistory, userMessage]);
+    setChatHistory((prev) => [...prev, userMessage]);
 
     try {
       if (API_URL) {
@@ -56,10 +57,10 @@ export const useChat = (recordId?: string, chat?: Message[]) => {
 
         const response = await request.json();
         botMessage.id = Date.now().toLocaleString();
-        console.log({ response });
-        // botMessage.content.content = response;
+        botMessage.content.content = response;
 
-        // setChatHistory([...chat, botMessage]);
+        // @ts-ignore
+        setChatHistory((prev) => [...prev, botMessage]);
 
         setIsLoading(false);
       }

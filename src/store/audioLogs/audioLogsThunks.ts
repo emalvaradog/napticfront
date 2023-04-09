@@ -4,9 +4,11 @@ import {
   setAudioStatusError,
   setAudiosStatus,
   setSelectedRecord,
+  updateSelectedRecordChat,
 } from "./audioLogsSlice";
 import {
   createNewRecord,
+  getRecordFromId,
   getUserRecords,
   updateRecordChat,
   uploadFile2Storage,
@@ -100,10 +102,27 @@ export const startSettingCurrentRecord = (id: string) => {
   };
 };
 
+export const startRetrievingRecord = (id: string) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
+    try {
+      dispatch(setAudiosStatus("loading"));
+      const { audioRecords } = getState().records;
+      const data = getRecordFromId(id);
+      const selectedRecord = audioRecords.find((element) => element.id === id);
+
+      dispatch(setSelectedRecord(selectedRecord));
+      dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+    } catch (error: any) {
+      dispatch(setAudioStatusError(error.message));
+    }
+  };
+};
+
 export const startUpdatingChatRecord = (chatMessage: Message) => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     const selectedRecord = getState().records.selectedRecord;
     if (selectedRecord) {
+      dispatch(updateSelectedRecordChat(chatMessage));
       await updateRecordChat(selectedRecord.id, chatMessage);
     }
   };

@@ -22,6 +22,8 @@ export function AudioRecorderSF({
   const intervalRef = useRef(null);
 
   const startRecording = () => {
+    console.log("start recording");
+
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
       setMediaRecorder(mediaRecorder);
@@ -32,6 +34,7 @@ export function AudioRecorderSF({
       });
 
       mediaRecorder.addEventListener("stop", () => {
+        console.log("stop recording");
         setIsRecording(false);
         setIsPaused(false);
         // @ts-ignore
@@ -63,11 +66,13 @@ export function AudioRecorderSF({
         }, 1000);
 
         setIsPaused(false);
+        setIsRecording(true);
       } else {
         mediaRecorder.pause();
         // @ts-ignore
         clearInterval(intervalRef.current);
         setIsPaused(true);
+        setIsRecording(false);
       }
     }
   };
@@ -186,7 +191,9 @@ export function AudioRecorderSF({
           </div>
         </div>
       )}
-      {currentAudio && <audio controls src={currentAudio} />}
+      {currentAudio && !isPaused && !isRecording && (
+        <audio controls src={currentAudio} />
+      )}
     </div>
   );
 }

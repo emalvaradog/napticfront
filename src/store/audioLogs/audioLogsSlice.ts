@@ -38,6 +38,11 @@ export const audioRecordsSlice = createSlice({
     pushNewAudioRecord: (state, { payload }) => {
       state.audioRecords.push(payload);
     },
+    updateSelectedRecordChat: (state, { payload }) => {
+      if (state.selectedRecord) {
+        state.selectedRecord.chat.push(payload);
+      }
+    },
   },
 });
 
@@ -49,4 +54,5 @@ export const {
   pushNewAudioRecord,
   setAudioStatusError,
   clearAudioRecords,
+  updateSelectedRecordChat,
 } = audioRecordsSlice.actions;
