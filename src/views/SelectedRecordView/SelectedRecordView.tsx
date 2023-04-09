@@ -17,11 +17,6 @@ export function SelectedRecordView() {
     (state: RootState) => state.records
   );
   const [textTimestamps, setTextTimestamps] = useState("");
-  const [title, setTitle] = useState(selectedRecord?.title);
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
 
   const formatDate = (date: string | undefined) => {
     if (date) {
@@ -44,7 +39,7 @@ export function SelectedRecordView() {
       ) : (
         <>
           <div className={styles.sectionTitle}>
-            <textarea rows={1}>{title}</textarea>
+            <textarea rows={1}>{selectedRecord?.title}</textarea>
             <p>{formatDate(selectedRecord?.creationDate)}</p>
           </div>
           <div className={styles.sectionContainer}>

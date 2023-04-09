@@ -1,6 +1,7 @@
 import { WorkspaceHeader } from "@/components";
 import styles from "./styles.module.scss";
 import { ReactElement } from "react";
+import { Toaster } from "react-hot-toast";
 
 export function WorkspaceLayout({
   aside,
@@ -11,6 +12,7 @@ export function WorkspaceLayout({
 }) {
   return (
     <main className={styles.layout}>
+      <Toaster />
       <header className={styles.layoutHeader}>
         <WorkspaceHeader />
       </header>

@@ -3,7 +3,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: .1fr 1fr;
+  grid-template-rows: .2fr 1fr;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -25,7 +25,7 @@
       word-wrap: break-word;
       text-align:center;
       background-color: transparent;
-      font-size: 4.4rem;
+      font-size: 4rem;
       font-weight: 500;
       border: none;
       outline:none;

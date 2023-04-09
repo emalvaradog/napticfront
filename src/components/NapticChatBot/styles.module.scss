@@ -138,6 +138,10 @@ $chat-radius: 3rem;
       svg{
         width: 2.4rem;
         cursor: pointer;
+
+        &:hover {
+          fill: $primary-color;
+        }
       }
     }
   }
