@@ -1,9 +1,10 @@
-@import '../../styles/variables.module.scss';
+@import  '@/styles/variables.module.scss';
 
 .section {
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;

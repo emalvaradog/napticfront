@@ -1,5 +1,6 @@
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -57,10 +58,13 @@ export const uploadFile2Storage = async (file: File) => {
   }
 };
 
-export const updateRecordChat = async (recordId: string, chat: Message) => {
+export const updateRecordChat = async (
+  recordId: string,
+  chatMessage: Message
+) => {
   try {
     const recordRef = doc(FirebaseDB, "records", recordId);
-    await updateDoc(recordRef, { chat });
+    await updateDoc(recordRef, { chat: arrayUnion(chatMessage) });
     return true;
   } catch (error) {
     return false;
@@ -68,13 +72,12 @@ export const updateRecordChat = async (recordId: string, chat: Message) => {
 };
 
 export const getRecordFromId = async (recordId: string) => {
-  try {
-    const recordRef = doc(FirebaseDB, "records", recordId);
-    const recordDoc = await getDoc(recordRef);
-    if (recordDoc.exists()) {
-      return recordDoc.data();
-    }
-  } catch (e) {
-    console.log(e);
+  const recordRef = doc(FirebaseDB, "records", recordId);
+  const recordDoc = await getDoc(recordRef);
+
+  if (recordDoc.exists()) {
+    return recordDoc.data();
+  } else {
+    return null;
   }
 };

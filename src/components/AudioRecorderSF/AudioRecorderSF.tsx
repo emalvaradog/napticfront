@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import styles from "./styles.module.scss";
+import { Loader } from "../Loader/Loader";
 
 export function AudioRecorderSF({
   handleNewRecord,
@@ -17,9 +18,15 @@ export function AudioRecorderSF({
   const [duration, setDuration] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
-  const [currentAudio, setCurrentAudio] = useState<string | null>(null);
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (currentFile) {
+      handleNewRecord(currentFile);
+    }
+  }, [currentFile]);
 
   const startRecording = () => {
     console.log("start recording");
@@ -30,23 +37,23 @@ export function AudioRecorderSF({
       mediaRecorder.start();
 
       mediaRecorder.addEventListener("dataavailable", (e) => {
-        setAudioChunks((prev) => [...prev, e.data]);
+        setAudioChunks((prev) => {
+          const updatedChunks = [...prev, e.data];
+          if (mediaRecorder.state === "inactive") {
+            const file = new File(updatedChunks, `${Date.now()}.wav`, {
+              type: "audio/wav",
+            });
+            setCurrentFile(file);
+            // handleNewRecord(file);
+          }
+          return updatedChunks;
+        });
       });
 
-      mediaRecorder.addEventListener("stop", () => {
-        console.log("stop recording");
-        setIsRecording(false);
-        setIsPaused(false);
-        // @ts-ignore
-        clearInterval(intervalRef.current);
-        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-        handleNewRecord(audioBlob);
-      });
-
+      mediaRecorder.addEventListener("stop", handleStop);
       setIsRecording(true);
       setDuration(0);
       setAudioChunks([]);
-      setCurrentAudio(null);
 
       // @ts-ignore
       intervalRef.current = setInterval(() => {
@@ -83,6 +90,14 @@ export function AudioRecorderSF({
     }
   };
 
+  const handleStop = () => {
+    console.log("stop recording");
+    setIsRecording(false);
+    setIsPaused(false);
+    // @ts-ignore
+    clearInterval(intervalRef.current);
+  };
+
   const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 3600);
     const minutes = Math.floor(duration / 60);
@@ -94,14 +109,6 @@ export function AudioRecorderSF({
 
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
-
-  useEffect(() => {
-    if (audioChunks.length > 0) {
-      const blob = new Blob(audioChunks, { type: "audio/wav" });
-      const url = URL.createObjectURL(blob);
-      setCurrentAudio(url);
-    }
-  }, [audioChunks]);
 
   return (
     <div className={styles.audioRecorder}>
@@ -169,7 +176,6 @@ export function AudioRecorderSF({
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
                   id="pause"
                   viewBox="0 0 24 24"
                 >
@@ -190,9 +196,6 @@ export function AudioRecorderSF({
             <p>Detener</p>
           </div>
         </div>
-      )}
-      {currentAudio && !isPaused && !isRecording && (
-        <audio controls src={currentAudio} />
       )}
     </div>
   );

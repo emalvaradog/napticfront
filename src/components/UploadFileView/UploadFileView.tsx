@@ -36,8 +36,8 @@ export function UploadFileView() {
 
   return (
     <section className={styles.section}>
-      {audiosStatus === "loading" ? (
-        <Loader />
+      {audiosStatus === "loading" || audiosStatus === "error" ? (
+        <Loader status={audiosStatus} />
       ) : (
         <>
           <div className={styles.sectionText}>

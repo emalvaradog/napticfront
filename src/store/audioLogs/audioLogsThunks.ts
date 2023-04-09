@@ -75,14 +75,20 @@ export const startCreatingNewRecord = ({
         fetch(`${API_URL}/upload`, {
           method: "POST",
           body: formData,
-        }).then((response) => {
-          dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
-          dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
-          dispatch(setAudiosStatus("loaded"));
-        });
+        })
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error);
+            dispatch(setAudioStatusError());
+          });
       }
+
+      dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
+      dispatch(setAudiosStatus("loaded"));
+      dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
     } catch (error: any) {
-      dispatch(setAudioStatusError(error.message));
+      console.log(error);
+      dispatch(setAudioStatusError());
     }
   };
 };
@@ -92,25 +98,17 @@ export const startSettingCurrentRecord = (id: string) => {
     try {
       dispatch(setAudiosStatus("loading"));
       const { audioRecords } = getState().records;
-      const selectedRecord = audioRecords.find((element) => element.id === id);
+      const data = await getRecordFromId(id);
+      console.log(data);
 
-      dispatch(setSelectedRecord(selectedRecord));
-      dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
-    } catch (error: any) {
-      dispatch(setAudioStatusError(error.message));
-    }
-  };
-};
+      audioRecords.map((record) => {
+        if (record.id === data.id) {
+          return data;
+        }
+        return record;
+      });
 
-export const startRetrievingRecord = (id: string) => {
-  return async (dispatch: Dispatch, getState: () => RootState) => {
-    try {
-      dispatch(setAudiosStatus("loading"));
-      const { audioRecords } = getState().records;
-      const data = getRecordFromId(id);
-      const selectedRecord = audioRecords.find((element) => element.id === id);
-
-      dispatch(setSelectedRecord(selectedRecord));
+      dispatch(setSelectedRecord(data));
       dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
     } catch (error: any) {
       dispatch(setAudioStatusError(error.message));

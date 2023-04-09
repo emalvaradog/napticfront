@@ -25,12 +25,12 @@ export function SelectedRecord() {
   return (
     <section className={styles.section}>
       {audiosStatus === "loading" ? (
-        <Loader />
+        <Loader status={audiosStatus} />
       ) : (
         <>
           <div className={styles.sectionTitle}>
             <h1>{selectedRecord?.title}</h1>
-            <p>{selectedRecord?.creationDate.toString()}</p>
+            <p>{selectedRecord?.creationDate}</p>
           </div>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionContainerAudio}>

@@ -32,7 +32,7 @@ export const audioRecordsSlice = createSlice({
       state.selectedRecord = null;
       state.audiosStatus = null;
     },
-    setAudioStatusError: (state, { payload }) => {
+    setAudioStatusError: (state) => {
       state.audiosStatus = "error";
     },
     pushNewAudioRecord: (state, { payload }) => {
