@@ -1,21 +1,21 @@
-import { WorkSpaceScreen } from "./WorkSpaceInterfaces"
+import { WorkSpaceScreen } from "./WorkSpaceInterfaces";
 
 export enum AuthStatus {
-    NotAuthenticated = "not-authenticated",
-    Authenticating = "authenticating",
-    Authenticated = "authenticated",
-    Error = "error",
+  NotAuthenticated = "not-authenticated",
+  Authenticating = "authenticating",
+  Authenticated = "authenticated",
+  Error = "error",
 }
 
 export interface AuthState {
-    uid: string | null
-    name: string | null
-    email: string | null
-    token: string | null
-    isAuth: boolean | null
-    authStatus: AuthStatus 
-    error: string | null
+  uid: string | null;
+  name: string | null;
+  email: string | null;
+  token: string | null;
+  isAuth: boolean | null;
+  authStatus: AuthStatus;
+  error: string | null;
 
-    // TODO: This should be in it's own WorkspaceSlice, not in Auth.
-    currentScreen: WorkSpaceScreen.Home
+  // TODO: This should be in it's own WorkspaceSlice, not in Auth.
+  currentScreen: WorkSpaceScreen.Home;
 }

@@ -25,15 +25,16 @@ export const authSlice = createSlice({
       state.email = payload.email;
       state.token = payload.token;
     },
-    logout: (state, { payload }) => {
+    logout: (state) => {
       state.authStatus = AuthStatus.NotAuthenticated;
       state.isAuth = false;
       state.uid = null;
       state.name = null;
       state.email = null;
       state.token = null;
+      state.currentScreen = WorkSpaceScreen.Home;
     },
-    validateCredentials: (state, { payload }) => {
+    validateCredentials: (state) => {
       state.authStatus = AuthStatus.Authenticating;
     },
     setCurrentScreen(state, { payload }) {
@@ -42,4 +43,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, logout, validateCredentials, setCurrentScreen } = authSlice.actions;
+export const { login, logout, validateCredentials, setCurrentScreen } =
+  authSlice.actions;

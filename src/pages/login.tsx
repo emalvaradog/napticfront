@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { startGoogleSignIn } from "../store/auth/authThunks";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { RootState } from "@/store/store";
 
 export default function Login() {
   const router = useRouter();
-  const { isAuth, uid } = useSelector((state) => state.auth);
+  const { isAuth, uid } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   function handleGoogleLogin() {
+    // @ts-ignore
     dispatch(startGoogleSignIn());
   }
 

@@ -1,26 +1,31 @@
-export interface Timestamp {
-    end: Number
-    id: Number
-    start: Number
-    text: string
+export interface TranscriptTimestamp {
+  end: number;
+  id: number;
+  start: number;
+  text: string;
 }
 
-export interface transcription {
-    text: string,
-    timestamps: Timestamp[]
+export interface Transcription {
+  text: string;
+  timestamps: TranscriptTimestamp[];
 }
 
-export interface ChatMessage {
-    role: "user" | "assistant",
-    content: string
+export interface MessageContent {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface Message {
+  id: string;
+  content: MessageContent;
 }
 
 export interface Record {
-    id: string
-    audios: string[]
-    chatHistory: ChatMessage[]
-    uploadedBy: string
-    creationDate: Date
-    title: string
-    transcription: any
+  id: string;
+  audios: string[];
+  chat: Message[];
+  uploadedBy: string;
+  creationDate: string;
+  title: string;
+  transcription: Transcription;
 }

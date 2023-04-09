@@ -3,31 +3,26 @@ import { AudioRecorderSF } from "../AudioRecorderSF/AudioRecorderSF";
 import styles from "./styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { startCreatingNewRecord } from "../../store/audioLogs/audioLogsThunks";
+import { RootState } from "@/store/store";
 
 export function AudioRecorder() {
   const [title, setTitle] = useState("Título grabación");
   const dispatch = useDispatch();
-  const { uid } = useSelector((state) => state.auth);
 
-  function handleNewRecord(audioFile) {
+  function handleNewRecord(audioFile: File) {
     const newLog = { title, audioFile };
+    // @ts-ignore
     dispatch(startCreatingNewRecord(newLog));
   }
 
-  function handleTitle(e) {
+  function handleTitle(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const { value } = e.target;
     setTitle(value);
   }
 
   return (
     <section className={styles.section}>
-      <textarea
-        onChange={handleTitle}
-        rows={1}
-        wrap="soft"
-        type="text"
-        value={title}
-      />
+      <textarea onChange={handleTitle} rows={1} wrap="soft" value={title} />
       <div className={styles.recorder}>
         <AudioRecorderSF handleNewRecord={handleNewRecord} />
       </div>

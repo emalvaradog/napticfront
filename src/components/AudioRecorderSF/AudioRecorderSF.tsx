@@ -1,97 +1,84 @@
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import styles from "./styles.module.scss";
 
-const FETCH_URL = "http://127.0.0.1:8000/upload";
-
-export function AudioRecorderSF({ handleNewRecord }) {
+export function AudioRecorderSF({
+  handleNewRecord,
+}: {
+  handleNewRecord: Function;
+}) {
   const [isRecording, setIsRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+    null
+  );
   const [duration, setDuration] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [audioChunks, setAudioChunks] = useState([]);
-  const [currentAudio, setCurrentAudio] = useState(null);
-  const { uid } = useSelector((state) => state.auth);
+  const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
+  const [currentAudio, setCurrentAudio] = useState<string | null>(null);
 
   const intervalRef = useRef(null);
 
-  const handleFilesUpload = async () => {
-    const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+  const startRecording = () => {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const mediaRecorder = new MediaRecorder(stream);
+      setMediaRecorder(mediaRecorder);
+      mediaRecorder.start();
 
-    const file = new File(
-      [audioBlob],
-      `${Date.now()}.${audioBlob.type.split("/")[1]}`
-    );
-    console.log(file);
-    handleNewRecord(file);
-  };
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
-      setMediaRecorder(recorder);
-      setIsRecording(true);
-
-      recorder.addEventListener("dataavailable", (e) => {
-        // Do something with the data
+      mediaRecorder.addEventListener("dataavailable", (e) => {
         setAudioChunks((prev) => [...prev, e.data]);
       });
 
-      recorder.start();
+      mediaRecorder.addEventListener("stop", () => {
+        setIsRecording(false);
+        setIsPaused(false);
+        // @ts-ignore
+        clearInterval(intervalRef.current);
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+        handleNewRecord(audioBlob);
+      });
+
+      setIsRecording(true);
       setDuration(0);
+      setAudioChunks([]);
+      setCurrentAudio(null);
+
+      // @ts-ignore
       intervalRef.current = setInterval(() => {
-        setDuration((prevDuration) => prevDuration + 1);
+        setDuration((prev) => prev + 1);
       }, 1000);
-    } catch (error) {
-      console.log(error);
+    });
+  };
+
+  const toggleRecording = () => {
+    if (mediaRecorder) {
+      if (isPaused) {
+        mediaRecorder.resume();
+
+        // @ts-ignore
+        intervalRef.current = setInterval(() => {
+          setDuration((prev) => prev + 1);
+        }, 1000);
+
+        setIsPaused(false);
+      } else {
+        mediaRecorder.pause();
+        // @ts-ignore
+        clearInterval(intervalRef.current);
+        setIsPaused(true);
+      }
     }
   };
 
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
-      clearInterval(intervalRef.current);
-      setAudioChunks([]);
-      setDuration(0);
-      setIsRecording(false);
-      setIsPaused(false);
-      handleFilesUpload();
     }
   };
 
-  const toggleRecording = () => {
-    if (mediaRecorder) {
-      switch (mediaRecorder.state) {
-        case "recording":
-          mediaRecorder.pause();
-          clearInterval(intervalRef.current);
-          setIsRecording(false);
-          setIsPaused(true);
-          break;
-
-        case "paused":
-          mediaRecorder.resume();
-          intervalRef.current = setInterval(() => {
-            setDuration((prevDuration) => prevDuration + 1);
-          }, 1000);
-          setIsPaused(false);
-          setIsRecording(true);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (audioChunks.length > 0) {
-      const blob = new Blob(audioChunks, { type: "audio/webm" });
-      const url = URL.createObjectURL(blob);
-      setCurrentAudio(url);
-    }
-  }, [audioChunks]);
-
-  const formatDuration = (duration) => {
+  const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 3600);
     const minutes = Math.floor(duration / 60);
     const seconds = duration % 60;
@@ -103,6 +90,14 @@ export function AudioRecorderSF({ handleNewRecord }) {
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
 
+  useEffect(() => {
+    if (audioChunks.length > 0) {
+      const blob = new Blob(audioChunks, { type: "audio/wav" });
+      const url = URL.createObjectURL(blob);
+      setCurrentAudio(url);
+    }
+  }, [audioChunks]);
+
   return (
     <div className={styles.audioRecorder}>
       {duration != 0 && (
@@ -112,9 +107,7 @@ export function AudioRecorderSF({ handleNewRecord }) {
             viewBox="0 0 47.5 47.5"
             id="circle"
             fill={isRecording ? "#dd2e44" : "#de707e"}
-            style={{
-              animation: !isRecording && "none",
-            }}
+            style={{ animation: `${!isRecording} && "none"` }}
           >
             <defs>
               <clipPath id="a">
@@ -135,7 +128,7 @@ export function AudioRecorderSF({ handleNewRecord }) {
           </h1>
         </div>
       )}
-      {!isRecording & !isPaused & (duration === 0) ? (
+      {!isRecording && !isPaused && duration === 0 ? (
         <div onClick={startRecording} className={styles.record}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +149,7 @@ export function AudioRecorderSF({ handleNewRecord }) {
       ) : (
         <div className={styles.controls}>
           <div onClick={toggleRecording} className={styles.control}>
-            {!isRecording & isPaused ? (
+            {!isRecording && isPaused ? (
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

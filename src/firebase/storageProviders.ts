@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore/lite";
 import {
@@ -14,15 +15,17 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { FirebaseDB, FirebaseStorage } from "./config";
+import { Message, Record } from "@/interfaces/Record";
 
-export const getUserRecords = async (uid) => {
-  const documents = [];
+export const getUserRecords = async (uid: string) => {
+  const documents = [] as Record[];
   const recordsRef = collection(FirebaseDB, `records`);
   const q = query(recordsRef, where("uploadedBy", "==", uid));
 
   const querySnapshot = await getDocs(q);
 
   querySnapshot.forEach((doc) => {
+    // @ts-ignore
     documents.push({
       id: doc.id,
       ...doc.data(),
@@ -32,7 +35,7 @@ export const getUserRecords = async (uid) => {
   return documents;
 };
 
-export const createNewRecord = async (newRecordData) => {
+export const createNewRecord = async (newRecordData: Record) => {
   const newRecordRef = doc(collection(FirebaseDB, "records"));
 
   newRecordData["id"] = newRecordRef.id;
@@ -42,7 +45,7 @@ export const createNewRecord = async (newRecordData) => {
   return newRecordRef.id;
 };
 
-export const uploadFile2Storage = async (file) => {
+export const uploadFile2Storage = async (file: File) => {
   const storageRef = ref(FirebaseStorage, "audio_files/" + file.name);
   try {
     const uploadTask = await uploadBytes(storageRef, file);
@@ -50,5 +53,15 @@ export const uploadFile2Storage = async (file) => {
     return fileLocation;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateRecordChat = async (recordId: string, chat: Message) => {
+  try {
+    const recordRef = doc(FirebaseDB, "records", recordId);
+    await updateDoc(recordRef, { chat });
+    return true;
+  } catch (error) {
+    return false;
   }
 };

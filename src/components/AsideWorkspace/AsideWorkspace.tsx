@@ -2,23 +2,37 @@ import styles from "./styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentScreen } from "../../store/auth/authSlice";
 import { startUserLogout } from "../../store/auth/authThunks";
-import { startSettingCurrentRecord } from "../../store/audioLogs/audioLogsThunks";
+import {
+  startRetrievingRecords,
+  startSettingCurrentRecord,
+} from "../../store/audioLogs/audioLogsThunks";
+import { current } from "@reduxjs/toolkit";
+import { useEffect } from "react";
+import { RootState } from "@/store/store";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
-import { Record } from "@/interfaces/Record";
 
 export function AsideWorkspace() {
   const dispatch = useDispatch();
-  const { audioRecords } = useSelector((state) => state.records);
+  const { audioRecords, selectedRecord } = useSelector(
+    (state: RootState) => state.records
+  );
+
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(startRetrievingRecords());
+  }, []);
 
   const setHomeScreen = () => {
     dispatch(setCurrentScreen(WorkSpaceScreen.Home));
   };
 
   const handleLogOut = () => {
+    // @ts-ignore
     dispatch(startUserLogout());
   };
 
-  const handleButtonClick = (id) => {
+  const handleButtonClick = (id: string) => {
+    // @ts-ignore
     dispatch(startSettingCurrentRecord(id));
   };
 
@@ -36,10 +50,10 @@ export function AsideWorkspace() {
           </p>
         ) : (
           <div className={styles.asideLogsHistory}>
-            {audioRecords.map((e: Record) => (
-              <button key={e.id} onClick={() => handleButtonClick(e.id)}>
-                <p>{e.title}</p>
-                <span>{e.creationDate.toString()}</span>
+            {audioRecords.map((log) => (
+              <button key={log.id} onClick={() => handleButtonClick(log.id)}>
+                <p>{log.title}</p>
+                <span>{log.creationDate.toLocaleString()}</span>
               </button>
             ))}
           </div>

@@ -6,22 +6,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Provider } from "react-redux";
-
-import { store } from "../store/store";
+import { RootState } from "@/store/store";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
-export default function Index(){
-  return (
-    <Provider store={store}>
-      <Home />
-    </Provider>
-  );
-}
-
-export function Home() {
-  const { uid } = useSelector((state) => state.auth);
+export default function Home() {
+  const { uid } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
   useEffect(() => {
@@ -62,15 +52,14 @@ export function Home() {
               className={styles.sample}
               alt="Napticapp"
               src="/sample.png"
-              fill="false"
+              fill={true}
             />
           </div>
           <a
             className={styles.cta}
             href="https://calendly.com/emanuelalvaradog/naptic"
             target="_blank"
-            noopener={"true"}
-            noreferrer={"true"}
+            rel="noopener notererrer"
           >
             Agendar un demo
           </a>

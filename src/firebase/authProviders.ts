@@ -21,7 +21,7 @@ export const signInUserWithGoogle = async () => {
       displayName,
       email,
     };
-  } catch (error) {
+  } catch (error: any) {
     return {
       ok: false,
       error: error.message,
@@ -29,11 +29,14 @@ export const signInUserWithGoogle = async () => {
   }
 };
 
-export const signInUserWithEmail = async (email, password) => {
+export const signInUserWithEmail = async (
+  userEmail: string,
+  password: string
+) => {
   try {
     const result = await signInWithEmailAndPassword(
       FirebaseAuth,
-      email,
+      userEmail,
       password
     );
 
@@ -45,7 +48,7 @@ export const signInUserWithEmail = async (email, password) => {
       displayName,
       email,
     };
-  } catch (error) {
+  } catch (error: any) {
     return {
       ok: false,
       error: error.message,

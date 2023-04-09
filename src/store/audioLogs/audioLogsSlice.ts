@@ -5,7 +5,7 @@ type audiosStatus = "loading" | "loaded" | "error" | null;
 
 const initialState = {
   audioRecords: [] as Record[],
-  selectedRecord: null as Record | null, 
+  selectedRecord: null as Record | null,
   audiosStatus: null as audiosStatus,
 };
 
@@ -19,12 +19,13 @@ export const audioRecordsSlice = createSlice({
     },
     setSelectedRecord: (state, { payload }) => {
       state.selectedRecord = payload;
+      state.audiosStatus = "loaded";
     },
     addAudioRecord: (state, { payload }) => {
       state.audioRecords.push(payload);
     },
-    setLoadingAudiosStatus: (state) => {
-      state.audiosStatus = "loading";
+    setAudiosStatus: (state, { payload }) => {
+      state.audiosStatus = payload;
     },
     clearAudioRecords: (state) => {
       state.audioRecords = [];
@@ -32,7 +33,7 @@ export const audioRecordsSlice = createSlice({
       state.audiosStatus = null;
     },
     setAudioStatusError: (state, { payload }) => {
-      state.audiosStatus = payload;
+      state.audiosStatus = "error";
     },
     pushNewAudioRecord: (state, { payload }) => {
       state.audioRecords.push(payload);
@@ -43,7 +44,7 @@ export const audioRecordsSlice = createSlice({
 export const {
   setAudioRecords,
   setSelectedRecord,
-  setLoadingAudiosStatus,
+  setAudiosStatus,
   addAudioRecord,
   pushNewAudioRecord,
   setAudioStatusError,

@@ -1,6 +1,6 @@
 export enum WorkSpaceScreen {
-    Home = 'Home',
-    Record = 'Record',
-    Upload = 'Upload',
-    selectedRecord = 'selectedRecord',
+  Home = "Home",
+  Record = "Record",
+  Upload = "Upload",
+  SelectedRecord = "SelectedRecord",
 }

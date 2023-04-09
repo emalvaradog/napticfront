@@ -2,29 +2,34 @@ import {
   pushNewAudioRecord,
   setAudioRecords,
   setAudioStatusError,
-  setLoadingAudiosStatus,
+  setAudiosStatus,
   setSelectedRecord,
 } from "./audioLogsSlice";
 import {
   createNewRecord,
   getUserRecords,
+  updateRecordChat,
   uploadFile2Storage,
 } from "../../firebase/storageProviders";
 import { setCurrentScreen } from "../auth/authSlice";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { Dispatch } from "redux";
+import { RootState } from "../store";
+import { Message, Record } from "@/interfaces/Record";
 
-const SERVER_URL = "https://127.0.0.1:8080/upload";
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const startRetrievingRecords = () => {
-  return async (dispatch: Dispatch, getState) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
     const { uid } = getState().auth;
 
-    dispatch(setLoadingAudiosStatus());
+    dispatch(setAudiosStatus("loading"));
 
     try {
-      const docs = await getUserRecords(uid);
-      dispatch(setAudioRecords(docs));
+      if (uid) {
+        const docs = await getUserRecords(uid);
+        dispatch(setAudioRecords(docs));
+      }
     } catch (error: any) {
       dispatch(setAudioStatusError(error.message));
       console.log(error);
@@ -35,52 +40,71 @@ export const startRetrievingRecords = () => {
 export const startCreatingNewRecord = ({
   title = "Nueva grabación",
   audioFile,
+}: {
+  title: string;
+  audioFile: File;
 }) => {
-  return async (dispatch: Dispatch, getState) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
     const { uid } = getState().auth;
-    dispatch(setLoadingAudiosStatus());
+    dispatch(setAudiosStatus("loading"));
 
     try {
       const fileUrl = await uploadFile2Storage(audioFile);
-
       const newRecordData = {
+        id: "",
         title,
         audios: [fileUrl],
         uploadedBy: uid,
-        creationDate: new Date().toUTCString(),
-      };
+        creationDate: new Date().toString(),
+        chat: [],
+        transcription: { text: "", timestamps: [] },
+      } as Record;
 
       const recordId = await createNewRecord(newRecordData);
-
       const formData = new FormData();
-      formData.append("audio_file", audioFile);
-      formData.append("user_uid", uid);
-      formData.append("record_id", recordId);
 
-      dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
+      if (audioFile && uid && recordId) {
+        formData.append("audio_file", audioFile);
+        formData.append("user_uid", uid);
+        formData.append("record_id", recordId);
+      }
 
-      fetch(SERVER_URL, {
-        method: "POST",
-        body: formData,
-      }).then((response) => {
-        dispatch(setCurrentScreen(WorkSpaceScreen.selectedRecord));
-      }); 
-
-    } catch (error) {}
-
-    setTimeout(() => {
-      console.log("Loading");
-    }, 2000);
+      if (API_URL) {
+        fetch(`${API_URL}/upload`, {
+          method: "POST",
+          body: formData,
+        }).then((response) => {
+          dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
+          dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+          dispatch(setAudiosStatus("loaded"));
+        });
+      }
+    } catch (error: any) {
+      dispatch(setAudioStatusError(error.message));
+    }
   };
 };
 
 export const startSettingCurrentRecord = (id: string) => {
-  return async (dispatch: Dispatch, getState) => {
-    const { audioRecords } = getState().records;
+  return async (dispatch: Dispatch, getState: () => RootState) => {
+    try {
+      dispatch(setAudiosStatus("loading"));
+      const { audioRecords } = getState().records;
+      const selectedRecord = audioRecords.find((element) => element.id === id);
 
-    const selectedRecord = audioRecords.find((element) => element.id === id);
+      dispatch(setSelectedRecord(selectedRecord));
+      dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+    } catch (error: any) {
+      dispatch(setAudioStatusError(error.message));
+    }
+  };
+};
 
-    dispatch(setSelectedRecord(selectedRecord));
-    dispatch(setCurrentScreen(WorkSpaceScreen.selectedRecord));
+export const startUpdatingChatRecord = (chatMessage: Message) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
+    const selectedRecord = getState().records.selectedRecord;
+    if (selectedRecord) {
+      await updateRecordChat(selectedRecord.id, chatMessage);
+    }
   };
 };
