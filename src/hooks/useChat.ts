@@ -14,7 +14,6 @@ export const useChat = (recordId?: string, chat?: Message[]) => {
   useEffect(() => {
     // @ts-ignore
     dispatch(startUpdatingChatRecord(chatHistory));
-    console.log(chatHistory);
   }, [chatHistory]);
 
   useEffect(() => {

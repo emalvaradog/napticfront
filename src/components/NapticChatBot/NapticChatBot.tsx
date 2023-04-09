@@ -2,6 +2,7 @@ import { ChatMessage } from "./ChatMessage/ChatMessage";
 import styles from "./styles.module.scss";
 import { useChat } from "../../hooks/useChat";
 import { Message } from "@/interfaces/Record";
+import { useEffect, useRef } from "react";
 
 export function NapticChatBot({
   chat,
@@ -14,6 +15,14 @@ export function NapticChatBot({
     recordId,
     chat
   );
+
+  const chatContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatContentRef.current) {
+      chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+    }
+  }, [chatHistory, isLoading]);
 
   async function handleResponse(e: React.MouseEvent<HTMLButtonElement>) {
     await handleSubmit(e);
@@ -34,7 +43,7 @@ export function NapticChatBot({
         <h1>Naptic Chat</h1>
       </div>
       <div className={styles.chatContent}>
-        <div className={styles.chatContentContainer}>
+        <div className={styles.chatContentContainer} ref={chatContentRef}>
           {chatHistory.length === 0 ? (
             <div className={styles.chatContentContainerEmpty}>
               <span>
@@ -52,6 +61,9 @@ export function NapticChatBot({
                 />
               ))}
             </>
+          )}
+          {isLoading && chatHistory.length > 0 && (
+            <ChatMessage role="system" content="Escribiendo ..." />
           )}
         </div>
       </div>
