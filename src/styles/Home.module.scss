@@ -22,7 +22,7 @@
 
 .headerLogo {
   font-size: 2rem;
-  color: $main-font-color;
+  color: $main-text;
   display: flex;
   align-items: center;
 }
@@ -32,7 +32,7 @@
   font-weight: 500;
   width: 55%;
   height: 3.4rem;
-  background-color: $accent-color;
+  background-color: $primary-color;
   color: white;
   display: flex;
   justify-content: center;
@@ -61,18 +61,18 @@
 .mainContent h1 {
   font-weight: 400;
   padding-right: 2rem;
-  color: $main-font-color;
+  color: $main-text;
 }
 
 .mainContent h1 > span {
   font-weight: 600;
-  color: $accent-color;
+  color: $primary-color;
 }
 
 .mainContent h3 {
   font-weight: 300;
   font-size: 1.8rem;
-  color: $main-font-color;
+  color: $main-text;
 }
 
 .demo {
@@ -101,7 +101,7 @@
 .cta {
   width: 70%;
   height: 4rem;
-  background-color: $accent-color;
+  background-color: $primary-color;
   color: white;
   display: flex;
   justify-content: center;
