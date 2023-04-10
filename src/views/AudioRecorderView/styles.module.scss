@@ -10,26 +10,30 @@
   align-items: center;
   text-align: center;
   gap: 10rem;
+
+  textarea {
+    width: 80%;
+    font-family: inherit;
+    word-wrap: break-word;
+    text-align: center;
+    background-color: transparent;
+    font-size: 4.2rem;
+    color: $main-text;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    resize: none;
+  }
+
+  > p {
+    width: 60%;
+    font-size: 1.8rem;
+    color: $main-light-text;
+    font-weight: 400;
+  }
+
 }
 
 .recorder {
   width: 50%;
-}
-
-.section textarea {
-  width:80%;
-  font-family: inherit;
-  word-wrap: break-word;
-  text-align:center;
-  background-color: transparent;
-  font-size: 4.4rem;
-  font-weight: 500;
-  border: none;
-  outline:none;
-  resize: none;
-}
-
-.section p {
-  color: $secondary-text;
-  width: 60%;
 }
