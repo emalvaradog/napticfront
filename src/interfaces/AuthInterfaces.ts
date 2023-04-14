@@ -15,6 +15,7 @@ export interface AuthState {
   isAuth: boolean | null;
   authStatus: AuthStatus;
   error: string | null;
+  permissions: string[] | null;
 
   // TODO: This should be in it's own WorkspaceSlice, not in Auth.
   currentScreen: WorkSpaceScreen.Home;

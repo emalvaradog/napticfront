@@ -11,6 +11,7 @@ const initialState: AuthState = {
   isAuth: false,
   authStatus: AuthStatus.NotAuthenticated,
   error: null,
+  permissions: null,
   currentScreen: WorkSpaceScreen.Home,
 };
 

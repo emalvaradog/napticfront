@@ -15,12 +15,14 @@ export const withAuth = (WrappedComponent: React.ComponentType<any>) => {
 
     useEffect(() => {
       const unsubscribe = FirebaseAuth.onAuthStateChanged((user) => {
+        // TODO: Handle permissions & set permissions.
         if (user) {
           dispatch(
             login({
               uid: user.uid,
               name: user.displayName,
               email: user.email,
+
               token: user.uid,
             })
           );
