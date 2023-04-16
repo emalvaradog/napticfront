@@ -41,6 +41,8 @@ export function SelectedRecordView() {
     <section className={styles.section}>
       {audiosStatus === "loading" ? (
         <Loader status={audiosStatus} />
+      ) : !selectedRecord?.transcription ? (
+        <Loader status={"!transcription"} />
       ) : (
         <>
           <div className={styles.sectionTitle}>

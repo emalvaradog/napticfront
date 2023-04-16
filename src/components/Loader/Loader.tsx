@@ -9,7 +9,7 @@ export function Loader({ status }: { status: string }) {
   return (
     <div className={styles.loader}>
       <h1>
-        {status === "loading"
+        {status === "loading" || status === "!transcription"
           ? "Tu audio está siendo procesado"
           : "Ocurrió un error, inténtalo más tarde"}
       </h1>
