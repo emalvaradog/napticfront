@@ -1,5 +1,7 @@
+import { userHasAccess } from "@/firebase/authProviders";
 import { FirebaseAuth } from "@/firebase/config";
 import { login, logout } from "@/store/auth/authSlice";
+import { validateIfUserHasAccess } from "@/store/auth/authThunks";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -17,6 +19,13 @@ export const withAuth = (WrappedComponent: React.ComponentType<any>) => {
       const unsubscribe = FirebaseAuth.onAuthStateChanged((user) => {
         // TODO: Handle permissions & set permissions.
         if (user) {
+          // @ts-ignore
+          if (userHasAccess(user.uid).then((res) => !res)) {
+            dispatch(logout());
+            router.push("/waitlist");
+            return;
+          }
+
           dispatch(
             login({
               uid: user.uid,
@@ -28,7 +37,6 @@ export const withAuth = (WrappedComponent: React.ComponentType<any>) => {
           );
           router.push("/workspace");
         } else {
-          dispatch(logout());
           router.push("/login");
         }
       });

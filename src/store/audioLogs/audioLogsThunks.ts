@@ -8,6 +8,7 @@ import {
 } from "./audioLogsSlice";
 import {
   createNewRecord,
+  deleteRecord,
   getRecordFromId,
   getUserRecords,
   updateRecordChat,
@@ -123,6 +124,30 @@ export const startUpdatingChatRecord = (chatMessage: Message) => {
     if (selectedRecord) {
       dispatch(updateSelectedRecordChat(chatMessage));
       await updateRecordChat(selectedRecord.id, chatMessage);
+    }
+  };
+};
+
+export const startDeletingRecord = (recordId: string) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
+    const { audioRecords, selectedRecord } = getState().records;
+    try {
+      console.log("deleting record");
+      await deleteRecord(recordId);
+
+      if (selectedRecord && selectedRecord.id === recordId) {
+        dispatch(setCurrentScreen(WorkSpaceScreen.Home));
+        dispatch(setSelectedRecord(null));
+      }
+
+      dispatch(setAudiosStatus("loading"));
+      const updatedRecords = audioRecords.filter(
+        (record) => record.id !== recordId
+      );
+      dispatch(setAudioRecords(updatedRecords));
+    } catch (error) {
+      console.log(error);
+      setAudiosStatus("error");
     }
   };
 };

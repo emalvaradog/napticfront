@@ -1,4 +1,5 @@
-import { FirebaseAuth } from "./config";
+import { doc } from "firebase/firestore/lite";
+import { FirebaseAuth, FirebaseDB } from "./config";
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -55,6 +56,15 @@ export const signInUserWithEmail = async (
       error: error.message,
     };
   }
+};
+
+export const userHasAccess = async (uid: string) => {
+  const userRef = doc(FirebaseDB, "users", uid);
+  if (userRef) {
+    return true;
+  }
+
+  return false;
 };
 
 export const logoutFirebaseUser = async () => {

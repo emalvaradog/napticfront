@@ -26,6 +26,11 @@ export function SelectedRecordView() {
     }
   };
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    // @ts-ignore
+    // dispatch(startUpdatingRecordTitle(selectedRecord?.id, e.target.value));
+  };
+
   useEffect(() => {
     if (!selectedRecord) {
       router.push("/workspace");
@@ -39,7 +44,11 @@ export function SelectedRecordView() {
       ) : (
         <>
           <div className={styles.sectionTitle}>
-            <textarea rows={1} value={selectedRecord?.title}></textarea>
+            <textarea
+              rows={1}
+              value={selectedRecord?.title}
+              onChange={handleTitleChange}
+            ></textarea>
             <p>{formatDate(selectedRecord?.creationDate)}</p>
           </div>
           <div className={styles.sectionContainer}>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentScreen } from "../../store/auth/authSlice";
 import { startUserLogout } from "../../store/auth/authThunks";
 import {
+  startDeletingRecord,
   startRetrievingRecords,
   startSettingCurrentRecord,
 } from "../../store/audioLogs/audioLogsThunks";
@@ -42,6 +43,12 @@ export function AsideWorkspace() {
     dispatch(startSettingCurrentRecord(id));
   };
 
+  const handleOnDelete = (id: string) => {
+    console.log("on delete ", id);
+    // @ts-ignore
+    dispatch(startDeletingRecord(id));
+  };
+
   return (
     <aside className={styles.aside}>
       <div className={styles.asideLogs}>
@@ -59,6 +66,7 @@ export function AsideWorkspace() {
                 onClick={() => handleButtonClick(log.id)}
                 title={log.title}
                 date={formatDate(log.creationDate)}
+                onDelete={() => handleOnDelete(log.id)}
               />
             ))}
           </div>

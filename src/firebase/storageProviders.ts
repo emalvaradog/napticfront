@@ -2,6 +2,7 @@ import {
   addDoc,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -79,5 +80,14 @@ export const getRecordFromId = async (recordId: string) => {
     return recordDoc.data();
   } else {
     return null;
+  }
+};
+
+export const deleteRecord = async (recordId: string) => {
+  try {
+    const recordRef = doc(FirebaseDB, "records", recordId);
+    return await deleteDoc(recordRef);
+  } catch (error) {
+    return error;
   }
 };
