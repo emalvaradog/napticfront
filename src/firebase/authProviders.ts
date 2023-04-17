@@ -1,4 +1,4 @@
-import { doc } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { FirebaseAuth, FirebaseDB } from "./config";
 import {
   GoogleAuthProvider,
@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   setPersistence,
 } from "firebase/auth";
+import ts from "typescript";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -60,11 +61,8 @@ export const signInUserWithEmail = async (
 
 export const userHasAccess = async (uid: string) => {
   const userRef = doc(FirebaseDB, "users", uid);
-  if (userRef) {
-    return true;
-  }
-
-  return false;
+  const userDoc = await getDoc(userRef);
+  return userDoc.exists();
 };
 
 export const logoutFirebaseUser = async () => {

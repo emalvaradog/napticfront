@@ -10,7 +10,7 @@ const initialState: AuthState = {
   isAuth: false,
   authStatus: AuthStatus.NotAuthenticated,
   error: null,
-  permissions: null,
+  hasAccess: null,
   currentScreen: WorkSpaceScreen.Home,
 };
 
@@ -25,6 +25,7 @@ export const authSlice = createSlice({
       state.name = payload.name;
       state.email = payload.email;
       state.token = payload.token;
+      state.hasAccess = payload.hasAccess;
     },
     logout: (state) => {
       state.authStatus = AuthStatus.NotAuthenticated;
@@ -33,6 +34,7 @@ export const authSlice = createSlice({
       state.name = null;
       state.email = null;
       state.token = null;
+      state.hasAccess = null;
       state.currentScreen = WorkSpaceScreen.Home;
     },
     validateCredentials: (state) => {
@@ -41,8 +43,16 @@ export const authSlice = createSlice({
     setCurrentScreen(state, { payload }) {
       state.currentScreen = payload;
     },
+    setAccessStatus(state, { payload }) {
+      state.hasAccess = payload;
+    },
   },
 });
 
-export const { login, logout, validateCredentials, setCurrentScreen } =
-  authSlice.actions;
+export const {
+  login,
+  logout,
+  validateCredentials,
+  setCurrentScreen,
+  setAccessStatus,
+} = authSlice.actions;

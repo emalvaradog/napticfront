@@ -7,7 +7,13 @@ import {
   userHasAccess,
 } from "../../firebase/authProviders.ts";
 import { clearAudioRecords } from "../audioLogs/audioLogsSlice";
-import { login, logout, validateCredentials } from "./authSlice";
+import {
+  login,
+  logout,
+  setAccessStatus,
+  validateCredentials,
+} from "./authSlice";
+import { useRouter } from "next/router";
 
 export const validatingAuthCredentials = () => {
   return async (dispatch: Dispatch) => {
@@ -15,23 +21,30 @@ export const validatingAuthCredentials = () => {
   };
 };
 
-export const validateIfUserHasAccess = (uid: string) => {
-  return async (dispatch: Dispatch) => {
-    return await userHasAccess(uid);
-  };
-};
-
 export const startGoogleSignIn = () => {
   return async (dispatch: Dispatch) => {
     dispatch(validateCredentials());
     const result = await signInUserWithGoogle();
+    const { uid, displayName, email } = result;
 
-    if (!result.ok) return dispatch(logout(result.error));
+    // @ts-ignore
+    const userAccess = await userHasAccess(uid);
+
+    if (!result.ok) return dispatch(logout());
+
+    // if (!userAccess) return dispatch(logout());
 
     // @ts-ignore
     dispatch(startRetrievingRecords());
-
-    dispatch(login(result));
+    dispatch(
+      login({
+        uid,
+        name: displayName,
+        email,
+        token: uid,
+        hasAccess: userAccess,
+      })
+    );
   };
 };
 
