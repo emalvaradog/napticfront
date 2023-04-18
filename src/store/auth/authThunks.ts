@@ -36,6 +36,7 @@ export const startGoogleSignIn = () => {
 
     // @ts-ignore
     dispatch(startRetrievingRecords());
+
     dispatch(
       login({
         uid,

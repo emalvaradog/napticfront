@@ -53,6 +53,7 @@ export const startCreatingNewRecord = ({
 
     try {
       const fileUrl = await uploadFile2Storage(audioFile);
+
       const newRecordData = {
         id: "",
         title,
@@ -64,6 +65,7 @@ export const startCreatingNewRecord = ({
       } as Record;
 
       const recordId = await createNewRecord(newRecordData);
+
       const formData = new FormData();
 
       if (audioFile && uid && recordId) {

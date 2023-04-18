@@ -1,12 +1,20 @@
 import React from "react";
 import { toast } from "react-hot-toast";
 import styles from "./styles.module.scss";
+import { TranscriptTimestamp } from "@/interfaces/Record";
 
 export function TranscriptionVisualizer({
   transcript,
+  timestamps,
+  changeAudioTime,
 }: {
   transcript?: string;
+  timestamps?: TranscriptTimestamp[];
+  changeAudioTime: (time: number) => void;
 }) {
+  const [transcriptFormatted, setTranscriptFormatted] =
+    React.useState<boolean>(false);
+
   const copyTextToClipboard = () => {
     if (transcript === "" || transcript === undefined)
       return toast.error("No hay transcripción para copiar");
@@ -15,12 +23,21 @@ export function TranscriptionVisualizer({
     });
   };
 
+  const formatTranscript = () => {
+    setTranscriptFormatted((prev) => !prev);
+  };
+
+  const formatTimestamps = (timestamp: TranscriptTimestamp) => {
+    const { start, end } = timestamp;
+    return `${(start / 60).toFixed(2)} - ${(end / 60).toFixed(2)}`;
+  };
+
   return (
     <div className={styles.transcript} style={{ height: "100%" }}>
       <div className={styles.transcriptHeader}>
         <h1>Transcripción</h1>
         <div className={styles.transcriptHeaderButtons}>
-          <div className={styles.item}>
+          <div className={styles.item} onClick={formatTranscript}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -42,14 +59,22 @@ export function TranscriptionVisualizer({
       </div>
       <div className={styles.transcriptContent}>
         <div className={styles.transcriptContentText}>
-          {/* {timestamps?.map((timestamp, index) => {
-            return (
-              <p key={index}>
-                <span>{timestamp}</span>
-              </p>
-            );
-          })} */}
-          <p>{transcript}</p>
+          {transcriptFormatted ? (
+            timestamps?.map((timestamp, index) => {
+              return (
+                <div key={index} className={styles.transcriptContentTextTime}>
+                  <span
+                    onClick={() => changeAudioTime(Math.floor(timestamp.start))}
+                  >
+                    {formatTimestamps(timestamp)}
+                  </span>
+                  <p>{timestamp.text}</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>{transcript}</p>
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { userHasAccess } from "@/firebase/authProviders";
 import { FirebaseAuth } from "@/firebase/config";
+import { startRetrievingRecords } from "@/store/audioLogs/audioLogsThunks";
 import { login, logout, setAccessStatus } from "@/store/auth/authSlice";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/router";
@@ -18,7 +19,18 @@ export const withAuth = (WrappedComponent: React.ComponentType<any>) => {
       const unsubscribe = FirebaseAuth.onAuthStateChanged((user) => {
         // TODO: Handle permissions & set permissions.
         if (user && hasAccess) {
-          dispatch(login({ ...user, hasAccess: true }));
+          dispatch(
+            login({
+              uid: user.uid,
+              name: user.displayName,
+              email: user.email,
+              token: user.uid,
+              hasAccess: true,
+            })
+          );
+
+          // @ts-ignore
+          dispatch(startRetrievingRecords());
           router.push("/workspace");
         } else if (user && !hasAccess) {
           dispatch(logout());

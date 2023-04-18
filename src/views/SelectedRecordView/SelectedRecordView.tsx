@@ -17,6 +17,7 @@ export function SelectedRecordView() {
     (state: RootState) => state.records
   );
   const [textTimestamps, setTextTimestamps] = useState("");
+  const [audioTime, setAudioTime] = useState(0);
 
   const formatDate = (date: string | undefined) => {
     if (date) {
@@ -24,6 +25,10 @@ export function SelectedRecordView() {
       const dateFormatted = dateArr[2] + " " + dateArr[1] + " " + dateArr[3];
       return dateFormatted;
     }
+  };
+
+  const changeAudioTime = (time: number) => {
+    setAudioTime(time);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -55,11 +60,16 @@ export function SelectedRecordView() {
           </div>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionContainerAudio}>
-              <AudioVisualizer src={selectedRecord?.audios[0]} />
+              <AudioVisualizer
+                src={selectedRecord?.audios[0]}
+                audioTime={audioTime}
+              />
             </div>
             <div className={styles.sectionContainerTranscription}>
               <TranscriptionVisualizer
                 transcript={selectedRecord?.transcription.text}
+                timestamps={selectedRecord?.transcription.timestamps}
+                changeAudioTime={changeAudioTime}
               />
             </div>
             <div className={styles.sectionContainerChat}>
