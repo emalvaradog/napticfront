@@ -79,16 +79,16 @@ export const startCreatingNewRecord = ({
           method: "POST",
           body: formData,
         })
-          .then((response) => {})
+          .then((response) => {
+            dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
+            dispatch(setAudiosStatus("loaded"));
+            dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+          })
           .catch((error) => {
             console.log(error);
             dispatch(setAudioStatusError());
           });
       }
-
-      dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
-      dispatch(setAudiosStatus("loaded"));
-      dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
     } catch (error: any) {
       console.log(error);
       dispatch(setAudioStatusError());

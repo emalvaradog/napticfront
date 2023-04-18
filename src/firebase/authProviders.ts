@@ -60,9 +60,13 @@ export const signInUserWithEmail = async (
 };
 
 export const userHasAccess = async (uid: string) => {
-  const userRef = doc(FirebaseDB, "users", uid);
-  const userDoc = await getDoc(userRef);
-  return userDoc.exists();
+  try {
+    const userRef = doc(FirebaseDB, "users", uid);
+    const userDoc = await getDoc(userRef);
+    return userDoc.exists();
+  } catch (error) {
+    return false;
+  }
 };
 
 export const logoutFirebaseUser = async () => {
