@@ -59,12 +59,6 @@ export function SelectedRecordView() {
             <p>{formatDate(selectedRecord?.creationDate)}</p>
           </div>
           <div className={styles.sectionContainer}>
-            <div className={styles.sectionContainerAudio}>
-              <AudioVisualizer
-                src={selectedRecord?.audios[0]}
-                audioTime={audioTime}
-              />
-            </div>
             <div className={styles.sectionContainerTranscription}>
               <TranscriptionVisualizer
                 transcript={selectedRecord?.transcription.text}
@@ -76,6 +70,12 @@ export function SelectedRecordView() {
               <NapticChatBot
                 chat={selectedRecord?.chat}
                 recordId={selectedRecord?.id}
+              />
+            </div>
+            <div className={styles.sectionContainerAudio}>
+              <AudioVisualizer
+                src={selectedRecord?.audios[0]}
+                audioTime={audioTime}
               />
             </div>
           </div>
