@@ -27,9 +27,17 @@ export function TranscriptionVisualizer({
     setTranscriptFormatted((prev) => !prev);
   };
 
+  const convertTimestamps = (number: number) => {
+    const minutes = Math.floor(number / 60);
+    const seconds = Math.floor(number - minutes * 60);
+    const secondsFormatted = seconds < 10 ? `0${seconds}` : seconds;
+    return `${minutes}:${secondsFormatted}`;
+  };
+
   const formatTimestamps = (timestamp: TranscriptTimestamp) => {
     const { start, end } = timestamp;
-    return `${(start / 60).toFixed(2)} - ${(end / 60).toFixed(2)}`;
+
+    return `${convertTimestamps(start)} - ${convertTimestamps(end)}`;
   };
 
   return (

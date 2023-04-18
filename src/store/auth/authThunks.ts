@@ -7,12 +7,7 @@ import {
   userHasAccess,
 } from "../../firebase/authProviders.ts";
 import { clearAudioRecords } from "../audioLogs/audioLogsSlice";
-import {
-  login,
-  logout,
-  setAccessStatus,
-  validateCredentials,
-} from "./authSlice";
+import { login, logout, validateCredentials } from "./authSlice";
 import { useRouter } from "next/router";
 
 export const validatingAuthCredentials = () => {
@@ -28,7 +23,6 @@ export const startGoogleSignIn = () => {
     const { uid, displayName, email } = result;
 
     // @ts-ignore
-    const userAccess = await userHasAccess(uid);
 
     if (!result.ok) return dispatch(logout());
 
@@ -43,7 +37,6 @@ export const startGoogleSignIn = () => {
         name: displayName,
         email,
         token: uid,
-        hasAccess: userAccess,
       })
     );
   };
