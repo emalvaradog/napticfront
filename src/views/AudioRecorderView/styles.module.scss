@@ -35,5 +35,20 @@
 }
 
 .recorder {
-  width: 50%;
+  width: 60%;
+}
+
+@media (max-width: 425px) {
+  .section {
+    gap: 8rem;
+
+    textarea {
+      font-size: 3.2rem;
+    }
+
+    > p {
+      width: 90%;
+      font-size: 1.6rem;
+    }
+  }
 }

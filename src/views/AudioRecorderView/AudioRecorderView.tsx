@@ -33,7 +33,7 @@ export function AudioRecorderView() {
         <Loader status={audiosStatus} />
       ) : (
         <>
-          <textarea onChange={handleTitle} rows={1} wrap="soft" value={title} />
+          <textarea onChange={handleTitle} rows={2} wrap="soft" value={title} />
           <div className={styles.recorder}>
             <AudioRecorder handleNewRecord={handleNewRecord} />
           </div>
