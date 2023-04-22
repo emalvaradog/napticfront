@@ -3,4 +3,5 @@ export enum WorkSpaceScreen {
   Record = "Record",
   Upload = "Upload",
   SelectedRecord = "SelectedRecord",
+  RecordsList = "RecordsList",
 }
