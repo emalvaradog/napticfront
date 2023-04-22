@@ -2,6 +2,7 @@ import { WorkspaceHeader } from "@/components";
 import styles from "./styles.module.scss";
 import { ReactElement } from "react";
 import { Toaster } from "react-hot-toast";
+import { MobileMenu } from "@/components/MobileMenu/MobileMenu";
 
 export function WorkspaceLayout({
   aside,
@@ -18,6 +19,9 @@ export function WorkspaceLayout({
       </header>
       <aside className={styles.layoutSidebar}>{aside()}</aside>
       <section className={styles.layoutContent}>{mainContent()}</section>
+      <footer className={styles.layoutMenu}>
+        <MobileMenu />
+      </footer>
     </main>
   );
 }

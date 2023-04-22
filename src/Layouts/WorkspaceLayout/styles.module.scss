@@ -7,8 +7,8 @@
     "header header"
     "sidebar main"
   ;
-  grid-template-columns: .20fr .8fr;
-  grid-template-rows: 6rem 1fr;
+  grid-template-columns: .2fr .8fr;
+  grid-template-rows: .1fr 1fr;
 
   &Header {
     grid-area: header;
@@ -35,4 +35,37 @@
     gap: 2rem;
     overflow: auto;
   }
+  &Menu {
+    display: none;
+  }
+}
+
+
+@media (max-width: 425px) {
+  .layout {
+    grid-template-areas: 
+      "header header"
+      "main main"
+      "menu menu"
+    ;
+    grid-template-columns: 1fr;
+    grid-template-rows: .1fr 1fr .1fr;
+
+    &Sidebar {
+      display: none;
+    }
+
+    &Content {
+      height: 100%;
+      grid-area: main;
+    }
+
+    &Menu {
+      height: 100%;
+      grid-area: menu;
+      display: flex;
+    }
+  }
+
+
 }
