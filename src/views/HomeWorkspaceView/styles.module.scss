@@ -71,3 +71,41 @@
     }
   }
 }
+
+@media (max-width: 425px) {
+  .section {
+    gap: 6rem;
+
+    &Text {
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      p {
+        font-size: 1.4rem;
+        width: 85%;
+      }
+    }
+
+    &Buttons {
+      flex-direction: column;
+      gap: 2rem;
+
+      button {
+        padding: .8rem 2rem;
+        font-size: 1.4rem;
+
+        svg {
+          width: 2.4rem;
+        }
+
+        &:nth-child(2) {
+          svg {
+            width: 2.8rem;
+          }
+        }
+      }
+    }
+  }
+}

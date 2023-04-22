@@ -39,11 +39,13 @@ export function AsideWorkspace() {
   };
 
   const handleButtonClick = (id: string) => {
+    console.log("on click ", id);
     // @ts-ignore
     dispatch(startSettingCurrentRecord(id));
   };
 
-  const handleOnDelete = (id: string) => {
+  const handleOnDelete = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
+    e.stopPropagation();
     console.log("on delete ", id);
     // @ts-ignore
     dispatch(startDeletingRecord(id));
@@ -52,7 +54,7 @@ export function AsideWorkspace() {
   return (
     <aside className={styles.aside}>
       <div className={styles.asideLogs}>
-        <h1>Tu historial de audios</h1>
+        <h1>Historial de audios</h1>
         {audioRecords.length == 0 ? (
           <p>
             Actualmente no tienes ningún historial. Comienza una nueva grabación
@@ -66,7 +68,7 @@ export function AsideWorkspace() {
                 onClick={() => handleButtonClick(log.id)}
                 title={log.title}
                 date={formatDate(log.creationDate)}
-                onDelete={() => handleOnDelete(log.id)}
+                onDelete={(e) => handleOnDelete(e, log.id)}
               />
             ))}
           </div>

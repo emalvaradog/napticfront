@@ -1,0 +1,29 @@
+@import '@/styles/variables.module.scss';
+
+.menu {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: .5fr .5fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.4rem 2rem;
+
+  &Item {
+    width: 100%;
+    font-size: 1.4rem;
+    padding: .8rem 0;
+    height: fit-content;
+    border-radius: 2.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $primary-color;
+    color: $main-light-text;
+
+    &Active {
+      color: $primary-color;
+    }
+
+  }
+}

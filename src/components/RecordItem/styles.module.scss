@@ -20,6 +20,10 @@
     border-radius: 2.5rem;
     padding: .8rem 1rem;
     border: 1px solid $primary-color;
+
+    .itemFocus {
+      display: flex;
+    }
   }
 
   & > svg {
@@ -41,16 +45,51 @@
     }
   }
 
+  &Btns {
+    display: flex;
+  }
+
+
   &Focus {
     width: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 
+    &:nth-child(2) {
+      svg {
+        width: 2.2rem;
+      }
+    }
+
     svg {
       justify-self: flex-end;
-      width: 2.6rem;
+      width: 3rem;
       fill: $main-light-text;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .item {
+    &Focus {
+      display: flex;
+
+      svg {
+        width: 2.8rem;
+      }
+
+      &:nth-child(2) {
+        svg {
+
+          width: 1.8rem;
+        }
+      }
+    }
+
+    &Btns {
+      display: flex;
+
     }
   }
 }
