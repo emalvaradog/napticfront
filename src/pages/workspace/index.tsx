@@ -29,6 +29,8 @@ function Index() {
         return <UploadFileView />;
       case WorkSpaceScreen.SelectedRecord:
         return <SelectedRecordView />;
+      case WorkSpaceScreen.RecordsList:
+        return <AsideWorkspace />;
       default:
         return <HomeWorkspaceView />;
     }
