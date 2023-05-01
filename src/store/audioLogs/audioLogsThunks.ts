@@ -133,20 +133,27 @@ export const startUpdatingChatRecord = (chatMessage: Message) => {
 export const startDeletingRecord = (recordId: string) => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     const { audioRecords, selectedRecord } = getState().records;
+    const { currentScreen } = getState().auth;
     try {
       console.log("deleting record");
-      await deleteRecord(recordId);
+      try {
+        dispatch(setAudiosStatus("loading"));
+        await deleteRecord(recordId);
 
-      if (selectedRecord && selectedRecord.id === recordId) {
-        dispatch(setCurrentScreen(WorkSpaceScreen.Home));
-        dispatch(setSelectedRecord(null));
+        // @ts-ignore
+        if (selectedRecord.id === recordId) {
+          dispatch(setSelectedRecord(null));
+          dispatch(setCurrentScreen(WorkSpaceScreen.Home));
+        }
+
+        const updatedRecords = audioRecords.filter(
+          (record) => record.id !== recordId
+        );
+
+        dispatch(setAudioRecords(updatedRecords));
+      } catch (error) {
+        dispatch(setAudioStatusError());
       }
-
-      dispatch(setAudiosStatus("loading"));
-      const updatedRecords = audioRecords.filter(
-        (record) => record.id !== recordId
-      );
-      dispatch(setAudioRecords(updatedRecords));
     } catch (error) {
       console.log(error);
       setAudiosStatus("error");
