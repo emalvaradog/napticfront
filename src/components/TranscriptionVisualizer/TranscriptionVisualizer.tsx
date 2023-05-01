@@ -41,7 +41,7 @@ export function TranscriptionVisualizer({
   };
 
   return (
-    <div className={styles.transcript} style={{ height: "100%" }}>
+    <div className={styles.transcript}>
       <div className={styles.transcriptHeader}>
         <h1>Transcripción</h1>
         <div className={styles.transcriptHeaderButtons}>

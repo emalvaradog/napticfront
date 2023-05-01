@@ -51,19 +51,53 @@
   &Content {
     width: 99%;
     word-wrap: break-word;
-    overflow-y: auto;
+    overflow: auto;
+    height: 100%;
+    position: relative;
     
+        &::-webkit-scrollbar {
+          padding: 0 .2rem;
+          width: 0.6rem;
+          background-color: rgb(202, 202, 202);
+          border-radius: .8rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $light-primary;
+          border-radius: 0.8rem;
+        }
+
     &Text {
       display: flex;
       flex-direction: column;
       gap: 1.6rem;
       width: 100%;
-      padding: 1.6rem 2.4rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      height: inherit;
+      padding: 1.2rem;
       
       p {
         font-size: 1.6rem;
         font-weight: 400;
         color:$main-text;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        overflow: auto;
+        padding: 0 1rem;
+
+        &::-webkit-scrollbar {
+          padding: 0 .2rem;
+          width: 0.6rem;
+          background-color: rgb(202, 202, 202);
+          border-radius: .8rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: $light-primary;
+          border-radius: 0.8rem;
+        }
       }
 
       &Time {
@@ -93,17 +127,6 @@
 
     }
     
-    &::-webkit-scrollbar {
-      padding: 0 .2rem;
-      width: 0.6rem;
-      background-color: rgb(202, 202, 202);
-      border-radius: .8rem;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: $light-primary;
-      border-radius: 0.8rem;
-    }
   }
 
 }
