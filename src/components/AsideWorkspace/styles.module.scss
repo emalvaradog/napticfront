@@ -87,6 +87,9 @@
 
 @media (max-width: 425px) {
   .aside {
+    padding-top: 2rem;
+    height: 85vh;
+
     &Logs {
       gap: 4rem;
     }
