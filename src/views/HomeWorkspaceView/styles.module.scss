@@ -73,7 +73,9 @@
 }
 
 @media (max-width: 425px) {
+  
   .section {
+    height: 80vh;
     gap: 6rem;
 
     &Text {
