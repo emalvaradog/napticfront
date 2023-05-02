@@ -51,7 +51,7 @@
   &Content {
     width: 99%;
     word-wrap: break-word;
-    overflow: auto;
+    overflow: hidden;
     height: 100%;
     position: relative;
     
@@ -76,6 +76,19 @@
       overflow-wrap: break-word;
       height: inherit;
       padding: 1.2rem;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        padding: 0 .2rem;
+        width: 0.6rem;
+        background-color: rgb(202, 202, 202);
+        border-radius: .8rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $light-primary;
+        border-radius: 0.8rem;
+      }
       
       p {
         font-size: 1.6rem;
@@ -102,8 +115,9 @@
 
       &Time {
         width: 100%;
+        height: inherit;
         display: grid;
-        grid-template-columns: .3fr 1fr;
+        grid-template-columns: .2fr 1fr;
         align-items: center;
         gap: 1rem;
         font-size: 1.4rem;
@@ -116,6 +130,7 @@
           padding: .3rem .4rem;
           border-radius: .4rem;
           color: $primary-color;
+          justify-self: center;
 
           &:hover {
             background-color: rgba($light-primary, .7);

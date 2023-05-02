@@ -35,9 +35,9 @@ export function TranscriptionVisualizer({
   };
 
   const formatTimestamps = (timestamp: TranscriptTimestamp) => {
-    const { start, end } = timestamp;
+    const { start } = timestamp;
 
-    return `${convertTimestamps(start)} - ${convertTimestamps(end)}`;
+    return `${convertTimestamps(start)}`;
   };
 
   return (
