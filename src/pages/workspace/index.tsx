@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
 
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { RootState } from "@/store/store";
@@ -10,6 +9,7 @@ import {
   SelectedRecordView,
   UploadFileView,
 } from "@/views";
+
 import { AsideWorkspace, withAuth } from "@/components";
 
 function Index() {
