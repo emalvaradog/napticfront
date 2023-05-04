@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { RootState } from "@/store/store";
-import { WorkspaceLayout } from "@/Layouts/WorkspaceLayout/WorkspaceLayout";
+import { WorkspaceLayout } from "@/Layouts";
+
 import {
   AudioRecorderView,
   HomeWorkspaceView,
@@ -10,10 +11,46 @@ import {
   UploadFileView,
 } from "@/views";
 
-import { AsideWorkspace, withAuth } from "@/components";
+import { AsideWorkspace } from "@/components";
+
+import {
+  AuthAction,
+  useAuthUser,
+  withAuthUser,
+  withAuthUserSSR,
+} from "next-firebase-auth";
+
+import { userHasAccess } from "@/firebase/authProviders";
+
+import { useEffect, useState } from "react";
+
+import { startUserLogout } from "@/store/auth/authThunks";
 
 function Index() {
-  const { uid, isAuth } = useSelector((state: RootState) => state.auth);
+  const [hasAccess, setHasAccess] = useState(false);
+  const authUser = useAuthUser();
+  const dispatch = useDispatch();
+
+  // TODO: Delete this useEffect after waitlist ends
+  useEffect(() => {
+    const userHasAppAccess = async () => {
+      // @ts-ignore
+      const access = await userHasAccess(authUser.id);
+      return access;
+    };
+
+    userHasAppAccess()
+      .then((access) => {
+        if (!access) {
+          // @ts-ignore
+          dispatch(startUserLogout());
+          return;
+        }
+
+        setHasAccess(true);
+      })
+      .catch(console.error);
+  }, []);
 
   const currentScreen: WorkSpaceScreen = useSelector(
     (state: RootState) => state.auth.currentScreen
@@ -38,7 +75,7 @@ function Index() {
 
   return (
     <>
-      {uid && isAuth && (
+      {hasAccess && (
         <WorkspaceLayout
           aside={AsideWorkspace}
           mainContent={handleCurrentScreen}
@@ -48,5 +85,10 @@ function Index() {
   );
 }
 
-// @ts-ignore
-export default withAuth(Index);
+export const getServerSideProps = withAuthUserSSR({
+  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
+})();
+
+export default withAuthUser({
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+})(Index);

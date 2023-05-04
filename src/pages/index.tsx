@@ -7,16 +7,13 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { RootState } from "@/store/store";
+import { AuthAction, withAuthUser, withAuthUserSSR } from "next-firebase-auth";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
-export default function Home() {
+export function Home() {
   const { uid } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-
-  useEffect(() => {
-    if (uid) router.push("/dashboard");
-  }, [uid]);
 
   return (
     <div className={styles.container}>
@@ -68,3 +65,11 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps = withAuthUserSSR({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})();
+
+export default withAuthUser({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})(Home);

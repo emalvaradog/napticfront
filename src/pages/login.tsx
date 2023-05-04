@@ -5,8 +5,9 @@ import { startGoogleSignIn } from "../store/auth/authThunks";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { RootState } from "@/store/store";
+import { AuthAction, withAuthUser, withAuthUserSSR } from "next-firebase-auth";
 
-export default function Login() {
+export function Login() {
   const router = useRouter();
   const { isAuth, uid } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
@@ -19,10 +20,6 @@ export default function Login() {
   // function handleGoogleLogin() {
   //   return;
   // }
-
-  useEffect(() => {
-    if (isAuth && uid) router.push("/workspace");
-  }, [isAuth]);
 
   return (
     <>
@@ -97,3 +94,12 @@ export default function Login() {
     </>
   );
 }
+
+// @ts-ignore
+export const getServerSideProps = withAuthUserSSR({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})();
+
+export default withAuthUser({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})(Login);
