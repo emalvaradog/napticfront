@@ -31,7 +31,7 @@ function Index() {
   const authUser = useAuthUser();
   const dispatch = useDispatch();
 
-  // TODO: Delete this useEffect after waitlist ends
+  // TODO: Delete this useEffect after waitlist ends :D
   useEffect(() => {
     const userHasAppAccess = async () => {
       // @ts-ignore
