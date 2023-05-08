@@ -2,8 +2,8 @@
 
 .item {
   width: 100%;
-  display: grid;
-  grid-template-columns: .2fr .5fr .3fr;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 1.2rem;
   text-align: left;
@@ -32,10 +32,13 @@
   }
 
   &Data {
-    min-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-self: center;
     justify-self: flex-start;
-    p {
+
+    p {      
       font-size: 1.8rem;
     }
   
@@ -56,12 +59,6 @@
     justify-content: center;
     align-items: center;
 
-    &:nth-child(2) {
-      svg {
-        width: 2.2rem;
-      }
-    }
-
     svg {
       justify-self: flex-end;
       width: 3rem;
@@ -70,26 +67,27 @@
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 768px) {
   .item {
+    max-width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 1rem ;
+    align-items: center;
+    gap: 1rem;
+
     &Focus {
       display: flex;
 
       svg {
         width: 2.8rem;
       }
-
-      &:nth-child(2) {
-        svg {
-
-          width: 1.8rem;
-        }
-      }
     }
 
     &Btns {
       display: flex;
-
+      gap: .8rem;
     }
   }
 }

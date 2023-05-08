@@ -21,6 +21,7 @@ export function AsideWorkspace() {
   useEffect(() => {
     // @ts-ignore
     dispatch(startRetrievingRecords());
+    console.log("hey");
   }, []);
 
   const setHomeScreen = () => {

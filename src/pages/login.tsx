@@ -13,13 +13,9 @@ export function Login() {
   const dispatch = useDispatch();
 
   function handleGoogleLogin() {
-    // @ts-ignorek
+    // @ts-ignore
     dispatch(startGoogleSignIn());
   }
-
-  // function handleGoogleLogin() {
-  //   return;
-  // }
 
   return (
     <>

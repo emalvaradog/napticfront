@@ -60,13 +60,12 @@
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 768px) {
   .section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // height: 100%;
     overflow: auto;
     gap: 2rem;
 
@@ -76,8 +75,12 @@
       gap: 1.2rem;
       padding: 0 2rem;
 
-      textarea {
-        width: 100%;
+      input {
+        text-align: center;
+        background-color: transparent;
+        border: none;
+        width: min-content;
+        outline: 1px rgb(176, 176, 176);
         font-size: 2.8rem;
       }
     }

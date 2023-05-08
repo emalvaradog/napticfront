@@ -56,8 +56,9 @@ export const startEmailSignIn = (email: string, password: string) => {
 
 export const startUserLogout = () => {
   return async (dispatch: Dispatch) => {
-    await logoutFirebaseUser();
-    dispatch(clearAudioRecords());
-    dispatch(logout());
+    logoutFirebaseUser().then(() => {
+      dispatch(logout());
+      dispatch(clearAudioRecords());
+    });
   };
 };

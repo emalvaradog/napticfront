@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { RootState } from "@/store/store";
 import { WorkspaceLayout } from "@/Layouts";
@@ -21,10 +20,9 @@ import {
 } from "next-firebase-auth";
 
 import { userHasAccess } from "@/firebase/authProviders";
-
 import { useEffect, useState } from "react";
-
 import { startUserLogout } from "@/store/auth/authThunks";
+import { login } from "@/store/auth/authSlice";
 
 function Index() {
   const [hasAccess, setHasAccess] = useState(false);
@@ -41,12 +39,21 @@ function Index() {
 
     userHasAppAccess()
       .then((access) => {
+        console.log(access);
         if (!access) {
           // @ts-ignore
           dispatch(startUserLogout());
           return;
         }
-
+        dispatch(
+          login({
+            uid: authUser.id,
+            email: authUser.email,
+            name: authUser.displayName,
+            photoUrl: authUser.photoURL,
+            token: authUser.id,
+          })
+        );
         setHasAccess(true);
       })
       .catch(console.error);
@@ -87,6 +94,7 @@ function Index() {
 
 export const getServerSideProps = withAuthUserSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
+  whenAuthed: AuthAction.RENDER,
 })();
 
 export default withAuthUser({

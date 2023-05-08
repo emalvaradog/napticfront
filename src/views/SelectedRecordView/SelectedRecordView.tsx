@@ -19,6 +19,8 @@ export function SelectedRecordView() {
   const [textTimestamps, setTextTimestamps] = useState("");
   const [audioTime, setAudioTime] = useState(0);
 
+  const [isEditing, setIsEditing] = useState(false);
+
   const formatDate = (date: string | undefined) => {
     if (date) {
       const dateArr = date.split(" ");
@@ -31,7 +33,7 @@ export function SelectedRecordView() {
     setAudioTime(time);
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // @ts-ignore
     // dispatch(startUpdatingRecordTitle(selectedRecord?.id, e.target.value));
   };
@@ -51,11 +53,11 @@ export function SelectedRecordView() {
       ) : (
         <>
           <div className={styles.sectionTitle}>
-            <textarea
-              rows={1}
+            <input
               value={selectedRecord?.title}
+              onFocus={() => setIsEditing(true)}
               onChange={handleTitleChange}
-            ></textarea>
+            />
             <p>{formatDate(selectedRecord?.creationDate)}</p>
           </div>
           <div className={styles.sectionContainer}>
