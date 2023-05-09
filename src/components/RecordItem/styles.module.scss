@@ -1,8 +1,10 @@
 @import '@/styles/variables.module.scss';
 
 .item {
+  min-width: fit-content;
   width: 100%;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   gap: 1.2rem;
