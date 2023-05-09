@@ -12,9 +12,6 @@ import { AuthAction, withAuthUser, withAuthUserSSR } from "next-firebase-auth";
 const raleway = Raleway({ subsets: ["latin"] });
 
 export function Home() {
-  const { uid } = useSelector((state: RootState) => state.auth);
-  const router = useRouter();
-
   return (
     <div className={styles.container}>
       <Head>
