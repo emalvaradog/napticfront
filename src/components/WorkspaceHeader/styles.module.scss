@@ -8,7 +8,86 @@
   align-items: center;
   justify-content: space-between;
   padding: 2rem;
+  position: relative;
   color: $light-primary;
+
+  &User {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+
+    img {
+      width: 4rem;
+      height: 4rem;
+      cursor: pointer;
+    }
+  }
+
+  &Modal {
+    top: 90%;
+    right: 2rem; 
+    position: absolute;
+    width: 25rem;
+    height: 15rem;
+    border-radius: 0.6rem;
+    display: grid;
+    grid-template-rows: .5fr .5fr;
+    background-color: #f9f9f9;
+    border: .4px solid $light-primary;
+    color: $main-text;
+    z-index: 1000;
+
+    &Plan {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: 0 2rem;
+
+      svg {
+        width: 2.6rem;
+        fill: $light-primary;
+      }
+
+      h4 {
+        font-size: 1.8rem;
+        font-weight: 500;
+      }
+
+      p {
+        font-size: 1.4rem;
+        font-weight: 300;
+      }
+      
+      &:hover {
+        background-color: #f1f1f1;
+      }
+    }
+
+    &Session {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding: 0 2rem;
+
+      svg {
+        width: 2.6rem;
+        fill: $light-primary;
+      }
+
+      h4 {
+        font-size: 1.8rem;
+        font-weight: 500;
+      }
+
+      &:hover {
+        background-color: #f1f1f1;
+      }
+    }
+  }
 
   h1 {
     cursor: pointer;
@@ -19,11 +98,20 @@
   .header {
     padding: 1.4rem 2rem;
 
+
+
     h1 {
       font-size: 2.4rem;
     }
+
     p {
-      font-size: 1.4rem;
+      display: none;
+      // font-size: 1.4rem;
+    }
+
+    &Modal {
+      width: 20rem;
+      height: 10rem;
     }
   }
 }
