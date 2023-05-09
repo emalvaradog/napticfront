@@ -6,35 +6,41 @@ import {
   setSelectedRecord,
   updateSelectedRecordChat,
 } from "./audioLogsSlice";
+
 import {
   createNewRecord,
   deleteRecord,
-  getRecordFromId,
   getUserRecords,
   updateRecordChat,
   uploadFile2Storage,
+  uploadUserToken,
 } from "../../firebase/storageProviders";
+
 import { setCurrentScreen } from "../auth/authSlice";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { Dispatch } from "redux";
 import { RootState } from "../store";
 import { Message, Record } from "@/interfaces/Record";
+import { useAuthUser } from "next-firebase-auth";
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const startRetrievingRecords = () => {
-  return async (dispatch: Dispatch, getState: () => RootState) => {
-    const { uid } = getState().auth;
-
+export const startRetrievingRecords = (uid: string) => {
+  return async (dispatch: Dispatch) => {
     dispatch(setAudiosStatus("loading"));
 
     try {
       if (uid) {
-        const docs = await getUserRecords(uid);
-        dispatch(setAudioRecords(docs));
+        try {
+          const docs = await getUserRecords(uid);
+          dispatch(setAudioRecords(docs));
+        } catch (error) {
+          dispatch(setAudioStatusError());
+          console.log(error);
+        }
       }
     } catch (error: any) {
-      dispatch(setAudioStatusError(error.message));
+      dispatch(setAudioStatusError());
       console.log(error);
     }
   };
@@ -48,7 +54,7 @@ export const startCreatingNewRecord = ({
   audioFile: File;
 }) => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
-    const { uid } = getState().auth;
+    const authUser = useAuthUser();
     dispatch(setAudiosStatus("loading"));
 
     try {
@@ -58,7 +64,7 @@ export const startCreatingNewRecord = ({
         id: "",
         title,
         audios: [fileUrl],
-        uploadedBy: uid,
+        uploadedBy: authUser.id,
         creationDate: new Date().toString(),
         chat: [],
         transcription: { text: "", timestamps: [] },
@@ -68,10 +74,14 @@ export const startCreatingNewRecord = ({
 
       const formData = new FormData();
 
-      if (audioFile && uid && recordId) {
+      // @ts-ignore
+      const token = await uploadUserToken(authUser.id);
+
+      if (audioFile && authUser.id && recordId) {
         formData.append("audio_file", audioFile);
-        formData.append("user_uid", uid);
+        formData.append("user_uid", authUser.id);
         formData.append("record_id", recordId);
+        formData.append("token", token);
       }
 
       if (API_URL) {
@@ -101,18 +111,16 @@ export const startSettingCurrentRecord = (id: string) => {
     try {
       dispatch(setAudiosStatus("loading"));
       const { audioRecords } = getState().records;
-      const data = await getRecordFromId(id);
+
+      let selectedRecord;
 
       audioRecords.map((record) => {
-        if (data) {
-          if (record.id === data.id) {
-            return data;
-          }
-          return record;
+        if (record.id === id) {
+          selectedRecord = record;
         }
       });
 
-      dispatch(setSelectedRecord(data));
+      dispatch(setSelectedRecord(selectedRecord));
       dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
     } catch (error: any) {
       dispatch(setAudioStatusError(error.message));
@@ -133,9 +141,7 @@ export const startUpdatingChatRecord = (chatMessage: Message) => {
 export const startDeletingRecord = (recordId: string) => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     const { audioRecords, selectedRecord } = getState().records;
-    const { currentScreen } = getState().auth;
     try {
-      console.log("deleting record");
       try {
         dispatch(setAudiosStatus("loading"));
         await deleteRecord(recordId);

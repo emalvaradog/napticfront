@@ -6,23 +6,16 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithPopup,
-  setPersistence,
 } from "firebase/auth";
-import ts from "typescript";
 
 const googleProvider = new GoogleAuthProvider();
 
 export const signInUserWithGoogle = async () => {
   try {
-    // TODO: Implement session/local persistance
-    const result = await signInWithPopup(FirebaseAuth, googleProvider);
-    const { uid, email, displayName } = result.user;
+    await signInWithPopup(FirebaseAuth, googleProvider);
 
     return {
       ok: true,
-      uid,
-      displayName,
-      email,
     };
   } catch (error: any) {
     return {
@@ -32,32 +25,32 @@ export const signInUserWithGoogle = async () => {
   }
 };
 
-export const signInUserWithEmail = async (
-  userEmail: string,
-  password: string
-) => {
-  try {
-    const result = await signInWithEmailAndPassword(
-      FirebaseAuth,
-      userEmail,
-      password
-    );
+// export const signInUserWithEmail = async (
+//   userEmail: string,
+//   password: string
+// ) => {
+//   try {
+//     const result = await signInWithEmailAndPassword(
+//       FirebaseAuth,
+//       userEmail,
+//       password
+//     );
 
-    const { uid, email, displayName } = result.user;
+//     const { uid, email, displayName } = result.user;
 
-    return {
-      ok: true,
-      uid,
-      displayName,
-      email,
-    };
-  } catch (error: any) {
-    return {
-      ok: false,
-      error: error.message,
-    };
-  }
-};
+//     return {
+//       ok: true,
+//       uid,
+//       displayName,
+//       email,
+//     };
+//   } catch (error: any) {
+//     return {
+//       ok: false,
+//       error: error.message,
+//     };
+//   }
+// };
 
 export const userHasAccess = async (uid: string) => {
   try {

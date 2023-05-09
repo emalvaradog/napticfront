@@ -8,12 +8,6 @@ export enum AuthStatus {
 }
 
 export interface AuthState {
-  uid: string | null;
-  name: string | null;
-  email: string | null;
-  token: string | null;
-  isAuth: boolean | null;
   authStatus: AuthStatus;
-  error: string | null;
   currentScreen: WorkSpaceScreen.Home;
 }

@@ -8,8 +8,6 @@ import { RootState } from "@/store/store";
 import { AuthAction, withAuthUser, withAuthUserSSR } from "next-firebase-auth";
 
 export function Login() {
-  const router = useRouter();
-  const { isAuth, uid } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   function handleGoogleLogin() {
@@ -69,6 +67,7 @@ export function Login() {
             <div className={styles.loginFormElement}>
               <label htmlFor="email">Correo</label>
               <input
+                disabled={true}
                 type="email"
                 autoComplete="username"
                 placeholder="Correo electrónico"
@@ -77,6 +76,7 @@ export function Login() {
             <div className={styles.loginFormElement}>
               <label htmlFor="password">Correo</label>
               <input
+                disabled={true}
                 type="password"
                 autoComplete="current-password"
                 placeholder="********"

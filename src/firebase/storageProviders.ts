@@ -11,14 +11,17 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore/lite";
+
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   uploadBytes,
 } from "firebase/storage";
+
 import { FirebaseDB, FirebaseStorage } from "./config";
 import { Message, Record } from "@/interfaces/Record";
+import { sign } from "jsonwebtoken";
 
 export const getUserRecords = async (uid: string) => {
   const documents = [] as Record[];
@@ -36,6 +39,23 @@ export const getUserRecords = async (uid: string) => {
   });
 
   return documents;
+};
+
+export const uploadUserToken = async (uid: string) => {
+  const time = Date.now();
+
+  // @ts-ignore
+  const token = sign({ timestamp }, process.env.JWT_SECRET);
+
+  const data = {
+    token,
+    time,
+    uid,
+  };
+
+  await setDoc(doc(FirebaseDB, "tokens", token), data);
+
+  return token;
 };
 
 export const createNewRecord = async (newRecordData: Record) => {
