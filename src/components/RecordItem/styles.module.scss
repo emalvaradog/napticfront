@@ -1,11 +1,10 @@
 @import '@/styles/variables.module.scss';
 
 .item {
-  min-width: fit-content;
+  // min-width: fit-content;
   width: 100%;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   align-items: center;
   gap: 1.2rem;
   text-align: left;
@@ -15,13 +14,14 @@
   border: none;
   background-color: transparent;
   color: $main-text;
-  cursor: pointer;
 
 
   &:hover {
-    border-radius: 2.5rem;
     padding: .8rem 1rem;
-    border: 1px solid $primary-color;
+
+    & >svg{
+      display: none;
+    }
 
     .itemFocus {
       display: flex;
@@ -29,7 +29,7 @@
   }
 
   & > svg {
-    width: 2.4rem;
+    width: 2.2rem;
     fill: $primary-color;
   }
 
@@ -39,6 +39,7 @@
     flex-direction: column;
     align-self: center;
     justify-self: flex-start;
+    gap: .2rem;
 
     p {      
       font-size: 1.8rem;

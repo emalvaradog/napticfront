@@ -23,6 +23,8 @@ import { FirebaseDB, FirebaseStorage } from "./config";
 import { Message, Record } from "@/interfaces/Record";
 import { sign } from "jsonwebtoken";
 
+const JWT_SECRET = "naptic-secret-jwt-key";
+
 export const getUserRecords = async (uid: string) => {
   const documents = [] as Record[];
   const recordsRef = collection(FirebaseDB, `records`);
@@ -45,7 +47,7 @@ export const uploadUserToken = async (uid: string) => {
   const time = Date.now();
 
   // @ts-ignore
-  const token = sign({ timestamp }, process.env.JWT_SECRET);
+  const token = String(time);
 
   const data = {
     token,
@@ -86,6 +88,19 @@ export const updateRecordChat = async (
   try {
     const recordRef = doc(FirebaseDB, "records", recordId);
     await updateDoc(recordRef, { chat: arrayUnion(chatMessage) });
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const updateRecordTitle = async (
+  recordId: string,
+  newRecordTitle: string
+) => {
+  try {
+    const recordRef = doc(FirebaseDB, "records", recordId);
+    await updateDoc(recordRef, { title: newRecordTitle });
     return true;
   } catch (error) {
     return false;

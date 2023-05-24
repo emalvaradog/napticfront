@@ -1,3 +1,5 @@
+@import '@/styles/variables.module.scss';
+
 .section {
   width: 100%;
   height: 100%;
@@ -18,6 +20,10 @@
     justify-content: center;
     align-items: center;
 
+     p{
+      color: $secondary-text;
+     }
+
     &Edit {
       display: flex;
       
@@ -28,6 +34,7 @@
         svg {
           width: 3rem;
           cursor: pointer;
+          fill: $secondary-text;
         }
       }
       
@@ -90,14 +97,22 @@
       gap: 1.2rem;
       padding: 0 2rem;
 
-      input {
-        text-align: center;
-        background-color: transparent;
-        border: none;
-        width: min-content;
-        outline: 1px rgb(176, 176, 176);
-        font-size: 2.8rem;
+      &Edit {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        input {
+          text-align: center;
+          background-color: transparent;
+          border: none;
+          width: 100%;
+          outline: 1px rgb(176, 176, 176);
+          font-size: 2.8rem;
+        }
       }
+
     }
 
     &Container {

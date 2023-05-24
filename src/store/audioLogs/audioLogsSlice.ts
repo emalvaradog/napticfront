@@ -43,6 +43,11 @@ export const audioRecordsSlice = createSlice({
         state.selectedRecord.chat.push(payload);
       }
     },
+    updateSelectedRecordTitle: (state, { payload }) => {
+      if (state.selectedRecord) {
+        state.selectedRecord.title = payload;
+      }
+    },
   },
 });
 

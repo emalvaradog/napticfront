@@ -12,6 +12,7 @@ import {
   deleteRecord,
   getUserRecords,
   updateRecordChat,
+  updateRecordTitle,
   uploadFile2Storage,
   uploadUserToken,
 } from "../../firebase/storageProviders";
@@ -49,12 +50,13 @@ export const startRetrievingRecords = (uid: string) => {
 export const startCreatingNewRecord = ({
   title = "Nueva grabación",
   audioFile,
+  uid,
 }: {
   title: string;
   audioFile: File;
+  uid: string;
 }) => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
-    const authUser = useAuthUser();
     dispatch(setAudiosStatus("loading"));
 
     try {
@@ -64,7 +66,7 @@ export const startCreatingNewRecord = ({
         id: "",
         title,
         audios: [fileUrl],
-        uploadedBy: authUser.id,
+        uploadedBy: uid,
         creationDate: new Date().toString(),
         chat: [],
         transcription: { text: "", timestamps: [] },
@@ -75,11 +77,11 @@ export const startCreatingNewRecord = ({
       const formData = new FormData();
 
       // @ts-ignore
-      const token = await uploadUserToken(authUser.id);
+      const token = await uploadUserToken(uid);
 
-      if (audioFile && authUser.id && recordId) {
+      if (audioFile && uid && recordId) {
         formData.append("audio_file", audioFile);
-        formData.append("user_uid", authUser.id);
+        formData.append("user_uid", uid);
         formData.append("record_id", recordId);
         formData.append("token", token);
       }
@@ -160,6 +162,26 @@ export const startDeletingRecord = (recordId: string) => {
       } catch (error) {
         dispatch(setAudioStatusError());
       }
+    } catch (error) {
+      console.log(error);
+      setAudiosStatus("error");
+    }
+  };
+};
+
+export const startUpdatingTitleRecord = (title: string, recordId: string) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
+    const { audioRecords, selectedRecord } = getState().records;
+    try {
+      const newRecords = audioRecords.map((record) => {
+        if (record.id === recordId) {
+          return { ...record, title };
+        }
+        return record;
+      });
+
+      dispatch(setAudioRecords(newRecords));
+      await updateRecordTitle(recordId, title);
     } catch (error) {
       console.log(error);
       setAudiosStatus("error");

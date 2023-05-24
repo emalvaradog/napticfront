@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { startCreatingNewRecord } from "../../store/audioLogs/audioLogsThunks";
 import { RootState } from "@/store/store";
 import { Loader } from "@/components";
+import { useAuthUser } from "next-firebase-auth";
 
 export function UploadFileView() {
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = createRef<HTMLInputElement>();
   const { audiosStatus } = useSelector((state: RootState) => state.records);
   const dispatch = useDispatch();
+  const authUser = useAuthUser();
 
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -27,7 +29,7 @@ export function UploadFileView() {
   const handleFilesUpload = () => {
     // TODO: Implement multiple file upload
     // @ts-ignore
-    dispatch(startCreatingNewRecord({ audioFile: files[0] }));
+    dispatch(startCreatingNewRecord({ audioFile: files[0], uid: authUser.id }));
   };
 
   useEffect(() => {

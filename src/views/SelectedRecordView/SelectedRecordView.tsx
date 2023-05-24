@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { RootState } from "../../store/store";
 import { useRouter } from "next/router";
@@ -10,13 +10,20 @@ import {
   NapticChatBot,
   TranscriptionVisualizer,
 } from "@/components";
+import {
+  startUpdatingChatRecord,
+  startUpdatingTitleRecord,
+} from "@/store/audioLogs/audioLogsThunks";
 
 export function SelectedRecordView() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const { selectedRecord, audiosStatus } = useSelector(
     (state: RootState) => state.records
   );
+
+  const checkRef = useRef(null);
 
   const [inputTitle, setInputTitle] = useState(selectedRecord?.title);
 
@@ -37,21 +44,24 @@ export function SelectedRecordView() {
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
     setInputTitle(e.target.value);
-    console.log(inputTitle);
   };
 
   const setNewTitle = () => {
     setIsEditing(false);
     if (inputTitle !== selectedRecord?.title) {
-      console.log(inputTitle);
+      // @ts-ignore
+      dispatch(startUpdatingTitleRecord(inputTitle, selectedRecord?.id));
     }
   };
 
-  const handleOnBlur = () => {
+  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    // @ts-ignore
+    if (checkRef && checkRef.current.contains(e.taget)) {
+      setInputTitle(selectedRecord?.title);
+    }
+
     setIsEditing(false);
-    setInputTitle(selectedRecord?.title);
   };
 
   useEffect(() => {
@@ -84,6 +94,7 @@ export function SelectedRecordView() {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 256 256"
                     id="check"
+                    ref={checkRef}
                   >
                     <rect width="256" height="256" fill="none"></rect>
                     <polyline
@@ -96,7 +107,7 @@ export function SelectedRecordView() {
                     ></polyline>
                   </svg>
                   <svg
-                    onClick={handleOnBlur}
+                    // onClick={handleOnBlur}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     id="cancel"
