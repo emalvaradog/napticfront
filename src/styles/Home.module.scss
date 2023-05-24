@@ -22,12 +22,12 @@
   z-index: 100;
   height: $mobile-header-height;
 
+
   h1 {
     font-size: 1.8rem;
   }
 
   &Logo {
-    font-size: 2rem;
     color: $main-text;
     display: flex;
     align-items: center;
@@ -74,6 +74,9 @@
     }
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 80%;
       margin-top: 1.5rem;
       padding: .8rem 0;
@@ -107,6 +110,7 @@
   }
 
   &Demo {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -147,7 +151,7 @@
       width: 100%;
       display: grid;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
       gap: 5rem;
 
@@ -204,7 +208,15 @@
     align-items: center;
     gap: 1.4rem;
     text-align: center;
-    margin: 3rem 0;
+    margin-bottom: 3rem;
+    
+    h2 {
+      text-align: center;
+      background: linear-gradient(180deg, #6956BB 0%,  #b9a9ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
     button {
       width: 80%;
@@ -231,19 +243,207 @@
 }
 
 @media (min-width: 640px) { 
+  .header {
+    h1 {
+      font-size: 2.4rem;
+    }
+    &CTA {
+      width: 35%;
+    } 
+  }
+
+  .main {
+    margin-top: 2rem;
+    gap: 10rem;
+
+    &Content {
+      width: 90%;
+
+      button {
+        width: 50%;
+      }
+    }
+
+    &Video {
+      width: 90%;
+      gap: 2.8rem;
+      h2 {
+        font-size: 2.6rem;
+      }
+    }
+
+    &Demo {
+      width: 90%;
+      gap: 2.8rem;
+      h2 {
+        font-size: 2.6rem;
+      }
+    }
+
+    &Cases {
+      h2 {
+        font-size: 2.8rem;
+      }
+      &List {
+        gap: 5rem;
+      }
+    }
+
+    &CTA {
+      width: 90%;
+
+      button {
+         width: 50%;
+      }
+    }
+  }
 }
 
 @media (min-width: 768px) {
   .main {
+    margin-top: 3rem;
+    &Content {
+      width: 85%;
+
+      button {
+      width: 40%;
+      }
+    }
+
+    &Video {
+      width: 85%;
+      h2 {
+        font-size: 2.8rem;
+      }
+    }
+
+    &Demo {
+      width: 85%;
+      h2 {
+        font-size: 2.8rem;
+      }
+    }
+
     &Cases {
+      width: 85%;
+      h2 {
+        font-size: 2.8rem;
+      }
+
       &List {
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
 
         .case {
           max-width: 30rem;
         }
       }
     }
+
+    &CTA {
+      width: 85%;
+
+      button {
+         width: 40%;
+      }
+    }
+
+
   }
 }
+
+@media(min-width: 1024px) {
+  .header {
+    padding: 0.8rem 5rem;
+    
+    &CTA {
+      width: 25%;
+    }
+  }
+
+  .main {
+    margin-top: 8rem;
+
+    &Content {
+      gap: 4rem;
+      h1 {
+        width: 75%;
+        font-size: 4rem;
+      }
+
+      p {
+        width: 75%;
+        font-size: 1.8rem;
+      }
+
+      button {
+        width: 30%;
+        font-size: 1.6rem;
+      }
+    }
+
+    &Video {
+      gap: 4.4rem;
+      width: 80%;
+      h2 {
+        font-size: 3rem;
+      }
+    }
+
+    &Demo {
+      gap: 4.4rem;
+      width: 80%;
+      h2 {
+        font-size: 3rem;
+      }
+    }
+
+    &Cases {
+      width: 80%;
+      gap: 6rem;
+      h2 {
+        font-size: 3rem;
+      }
+
+      &List {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6rem;
+
+        .case {
+          max-width: 30rem;
+          gap: 1.8rem;
+
+          h3 {
+            font-size: 2.2rem;
+            gap: 1.2rem;
+          }
+
+          ul {
+            gap: 1.6rem;
+          }
+        }
+      }
+    }
+
+    &CTA {
+      width: 80%;
+      margin-bottom: 6rem;
+
+      h2 {
+        font-size: 3rem;
+      }
+      button {
+         width: 30%;
+         font-size: 1.6rem;
+      }
+    }
+  }
+
+  .footer {
+    padding: 5rem 0 3rem 5rem ;
+
+    div {
+      font-size: 1.4rem;
+    }
+  }
+}
+

@@ -243,10 +243,10 @@ export function Home() {
               </ul>
             </div>
           </div>
-          <div className={styles.mainCTA}>
-            <h2>Aunque tú también puedes</h2>
-            <button>Comienza ahora</button>
-          </div>
+        </div>
+        <div className={styles.mainCTA}>
+          <h2>Aunque tú también puedes</h2>
+          <button>Comienza ahora</button>
         </div>
       </main>
       <footer className={styles.footer}>
