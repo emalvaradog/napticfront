@@ -1,11 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.scss";
-import { Raleway } from "next/font/google";
 import Link from "next/link";
 import { AuthAction, withAuthUser, withAuthUserSSR } from "next-firebase-auth";
-
-const raleway = Raleway({ subsets: ["latin"] });
 
 export function Home() {
   return (
@@ -18,7 +15,7 @@ export function Home() {
 
       <header className={styles.header}>
         <Link href="/" className={styles.headerLogo}>
-          <h1 className={raleway.className}>naptic</h1>
+          <h1>naptic</h1>
         </Link>
         <Link href="/login" className={styles.headerCTA}>
           Comenzar ahora
