@@ -60,14 +60,13 @@ export function Login() {
               <p>Inicia sesión con Google</p>
             </button>
           </div>
-          <div className={styles.divider}>
+          {/* <div className={styles.divider}>
             <p>o</p>
           </div>
           <form className={styles.loginForm}>
             <div className={styles.loginFormElement}>
               <label htmlFor="email">Correo</label>
               <input
-                disabled={true}
                 type="email"
                 autoComplete="username"
                 placeholder="Correo electrónico"
@@ -76,7 +75,6 @@ export function Login() {
             <div className={styles.loginFormElement}>
               <label htmlFor="password">Correo</label>
               <input
-                disabled={true}
                 type="password"
                 autoComplete="current-password"
                 placeholder="********"
@@ -84,7 +82,7 @@ export function Login() {
               <p>¿Olvidaste tu contraseña?</p>
             </div>
             <button className={styles.loginButton}>Iniciar sesión</button>
-          </form>
+          </form> */}
         </section>
       </main>
     </>
