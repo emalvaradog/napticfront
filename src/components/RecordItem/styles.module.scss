@@ -15,11 +15,17 @@
   background-color: transparent;
   color: $main-text;
 
+  &Selected {
+    border: 1px solid $primary-color;
+    border-radius: 1.2rem;
+  }
+
 
   &:hover {
     padding: .8rem 1rem;
+    cursor: pointer;
 
-    & >svg{
+    & > svg{
       display: none;
     }
 
@@ -50,11 +56,6 @@
       color: $main-light-text;
     }
   }
-
-  &Btns {
-    display: flex;
-  }
-
 
   &Focus {
     width: 100%;
