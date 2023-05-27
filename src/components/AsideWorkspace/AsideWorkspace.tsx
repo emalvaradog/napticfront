@@ -7,45 +7,57 @@ import {
   startRetrievingRecords,
   startSettingCurrentRecord,
 } from "../../store/audioLogs/audioLogsThunks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RootState } from "@/store/store";
 import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
+import { Record } from "@/interfaces/Record";
 import { RecordItem } from "../RecordItem/RecordItem";
 import { useAuthUser } from "next-firebase-auth";
 
 export function AsideWorkspace() {
   const dispatch = useDispatch();
-  const { audioRecords, selectedRecord } = useSelector(
-    (state: RootState) => state.records
-  );
+  const { audioRecords } = useSelector((state: RootState) => state.records);
+  const [sortedRecords, setSortedRecords] = useState<Record[]>([]);
 
   const authUser = useAuthUser();
 
+  // Order records by creation date (newest first)
+  useEffect(() => {
+    if (audioRecords.length > 0) {
+      const sorted = [...audioRecords].sort(
+        (a, b) =>
+          new Date(b.creationDate).getTime() -
+          new Date(a.creationDate).getTime()
+      );
+      setSortedRecords(sorted);
+    }
+  }, [audioRecords]);
+
+  // When component mounts, retrieve records from database
   useEffect(() => {
     // @ts-ignore
     dispatch(startRetrievingRecords(authUser.id));
   }, []);
 
+  // Function to set current screen to Home
   const setHomeScreen = () => {
     dispatch(setCurrentScreen(WorkSpaceScreen.Home));
   };
 
-  const handleLogOut = () => {
-    // @ts-ignore
-    dispatch(startUserLogout());
-  };
-
+  // Function to format date to dd mmm yyyy
   const formatDate = (date: string) => {
     const dateArr = date.split(" ");
     const dateFormatted = dateArr[2] + " " + dateArr[1] + " " + dateArr[3];
     return dateFormatted;
   };
 
+  // Function to handle record button click
   const handleButtonClick = (id: string) => {
     // @ts-ignore
     dispatch(startSettingCurrentRecord(id));
   };
 
+  // Function to handle delete record button click
   const handleOnDelete = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
     e.stopPropagation();
     // @ts-ignore
@@ -63,9 +75,10 @@ export function AsideWorkspace() {
           </p>
         ) : (
           <div className={styles.asideLogsHistory}>
-            {audioRecords.map((log) => (
+            {sortedRecords.map((log) => (
               <RecordItem
                 key={log.id}
+                id={log.id}
                 onClick={() => handleButtonClick(log.id)}
                 title={log.title}
                 date={formatDate(log.creationDate)}
