@@ -1,5 +1,4 @@
 import {
-  addDoc,
   arrayUnion,
   collection,
   deleteDoc,
@@ -10,18 +9,12 @@ import {
   setDoc,
   updateDoc,
   where,
-} from "firebase/firestore/lite";
+} from "firebase/firestore";
 
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  uploadBytes,
-} from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 import { FirebaseDB, FirebaseStorage } from "./config";
 import { Message, Record } from "@/interfaces/Record";
-import { sign } from "jsonwebtoken";
 
 const JWT_SECRET = "naptic-secret-jwt-key";
 
