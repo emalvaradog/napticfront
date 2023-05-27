@@ -10,10 +10,9 @@ import {
   NapticChatBot,
   TranscriptionVisualizer,
 } from "@/components";
-import {
-  startUpdatingChatRecord,
-  startUpdatingTitleRecord,
-} from "@/store/audioLogs/audioLogsThunks";
+import { startUpdatingTitleRecord } from "@/store/audioLogs/audioLogsThunks";
+import { setCurrentScreen } from "@/store/auth/authSlice";
+import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 
 export function SelectedRecordView() {
   const router = useRouter();
@@ -26,11 +25,10 @@ export function SelectedRecordView() {
   const checkRef = useRef(null);
 
   const [inputTitle, setInputTitle] = useState(selectedRecord?.title);
-
   const [audioTime, setAudioTime] = useState(0);
-
   const [isEditing, setIsEditing] = useState(false);
 
+  // Function to format date to dd mmm yyyy
   const formatDate = (date: string | undefined) => {
     if (date) {
       const dateArr = date.split(" ");
@@ -39,10 +37,12 @@ export function SelectedRecordView() {
     }
   };
 
+  // Function to change starting audio time
   const changeAudioTime = (time: number) => {
     setAudioTime(time);
   };
 
+  // Function to handle title change
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputTitle(e.target.value);
   };
@@ -55,18 +55,15 @@ export function SelectedRecordView() {
     }
   };
 
-  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    if (checkRef && checkRef.current.contains(e.taget)) {
-      setInputTitle(selectedRecord?.title);
-    }
-
+  const handleCancelEdit = () => {
     setIsEditing(false);
+    setInputTitle(selectedRecord?.title);
   };
 
+  // Change title when selected record changes
   useEffect(() => {
     if (!selectedRecord) {
-      router.push("/workspace");
+      dispatch(setCurrentScreen(WorkSpaceScreen.Home));
     }
     setInputTitle(selectedRecord?.title);
   }, [selectedRecord]);
@@ -84,7 +81,6 @@ export function SelectedRecordView() {
               <input
                 value={inputTitle}
                 onFocus={() => setIsEditing(true)}
-                onBlur={handleOnBlur}
                 onChange={handleTitleChange}
               />
               {isEditing && (
@@ -107,7 +103,7 @@ export function SelectedRecordView() {
                     ></polyline>
                   </svg>
                   <svg
-                    // onClick={handleOnBlur}
+                    onClick={handleCancelEdit}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     id="cancel"
