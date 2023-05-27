@@ -10,6 +10,7 @@ import {
 import {
   createNewRecord,
   deleteRecord,
+  getRecordFromId,
   getUserRecords,
   updateRecordChat,
   updateRecordTitle,
@@ -22,7 +23,8 @@ import { WorkSpaceScreen } from "@/interfaces/WorkSpaceInterfaces";
 import { Dispatch } from "redux";
 import { RootState } from "../store";
 import { Message, Record } from "@/interfaces/Record";
-import { useAuthUser } from "next-firebase-auth";
+import { onSnapshot, doc } from "firebase/firestore";
+import { FirebaseDB } from "@/firebase/config";
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -92,9 +94,13 @@ export const startCreatingNewRecord = ({
           body: formData,
         })
           .then((response) => {
-            dispatch(pushNewAudioRecord({ ...newRecordData, id: recordId }));
-            dispatch(setAudiosStatus("loaded"));
-            dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+            // @ts-ignore
+            getRecordFromId(recordId).then((record) => {
+              dispatch(pushNewAudioRecord(record));
+              dispatch(setSelectedRecord(record));
+              dispatch(setAudiosStatus("loaded"));
+              dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -124,6 +130,7 @@ export const startSettingCurrentRecord = (id: string) => {
 
       dispatch(setSelectedRecord(selectedRecord));
       dispatch(setCurrentScreen(WorkSpaceScreen.SelectedRecord));
+      dispatch(setAudiosStatus(""));
     } catch (error: any) {
       dispatch(setAudioStatusError(error.message));
     }
