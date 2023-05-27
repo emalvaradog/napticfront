@@ -13,28 +13,27 @@ export function UploadFileView() {
   const dispatch = useDispatch();
   const authUser = useAuthUser();
 
+  // Function to handle file input change
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
+    const { files } = e.target;
     if (files) {
       const fileArr = Array.from(files);
       setFiles(fileArr);
     }
   };
 
+  // Function to handle file input button click
   const handleClick = () => {
     // @ts-ignore
     fileInputRef.current.click();
   };
 
+  // Function to handle file upload button click
   const handleFilesUpload = () => {
     // TODO: Implement multiple file upload
     // @ts-ignore
     dispatch(startCreatingNewRecord({ audioFile: files[0], uid: authUser.id }));
   };
-
-  useEffect(() => {
-    console.log(files);
-  }, [files]);
 
   return (
     <section className={styles.section}>
