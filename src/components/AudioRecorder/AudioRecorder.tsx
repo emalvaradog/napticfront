@@ -26,13 +26,13 @@ export function AudioRecorder({
   }, [currentFile]);
 
   const startRecording = () => {
-    console.log("start recording");
-
+    // Get audio stream from user's microphone permission and start recording
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
       setMediaRecorder(mediaRecorder);
       mediaRecorder.start();
 
+      // When the media recorder has data available, add it to the audio chunks
       mediaRecorder.addEventListener("dataavailable", (e) => {
         setAudioChunks((prev) => {
           const updatedChunks = [...prev, e.data];
@@ -47,11 +47,15 @@ export function AudioRecorder({
         });
       });
 
+      // When the media recorder stops, call the handleStop function
       mediaRecorder.addEventListener("stop", handleStop);
+
+      // Set the isRecording state to true and start the timer
       setIsRecording(true);
       setDuration(0);
       setAudioChunks([]);
 
+      // Increase the duration every second
       // @ts-ignore
       intervalRef.current = setInterval(() => {
         setDuration((prev) => prev + 1);
@@ -59,6 +63,7 @@ export function AudioRecorder({
     });
   };
 
+  // Function to pause and resume the recording
   const toggleRecording = () => {
     if (mediaRecorder) {
       if (isPaused) {
@@ -81,12 +86,14 @@ export function AudioRecorder({
     }
   };
 
+  // Function to stop the recording
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
     }
   };
 
+  // Function to handle the stop event
   const handleStop = () => {
     console.log("stop recording");
     setIsRecording(false);
@@ -95,6 +102,7 @@ export function AudioRecorder({
     clearInterval(intervalRef.current);
   };
 
+  // Function to format the duration in seconds to HH:MM:SS
   const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 3600);
     const minutes = Math.floor(duration / 60);
