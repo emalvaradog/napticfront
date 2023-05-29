@@ -50,7 +50,7 @@ export const startRetrievingRecords = (uid: string) => {
 };
 
 export const startCreatingNewRecord = ({
-  title = "Nueva grabación",
+  title = "Título grabación",
   audioFile,
   uid,
 }: {

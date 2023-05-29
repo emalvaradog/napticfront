@@ -95,7 +95,6 @@ export function AudioRecorder({
 
   // Function to handle the stop event
   const handleStop = () => {
-    console.log("stop recording");
     setIsRecording(false);
     setIsPaused(false);
     // @ts-ignore

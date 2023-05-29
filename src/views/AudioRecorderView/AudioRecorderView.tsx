@@ -5,15 +5,16 @@ import { startCreatingNewRecord } from "../../store/audioLogs/audioLogsThunks";
 import { RootState } from "@/store/store";
 import { Loader } from "../../components/Loader/Loader";
 import { AudioRecorder } from "@/components";
+import { useAuthUser } from "next-firebase-auth";
 
 export function AudioRecorderView() {
   const { audiosStatus } = useSelector((state: RootState) => state.records);
+  const { id } = useAuthUser();
   const [title, setTitle] = useState("Título grabación");
   const dispatch = useDispatch();
 
   function handleNewRecord(audioFile: File) {
-    const newLog = { title, audioFile };
-    console.log(newLog);
+    const newLog = { title, audioFile, uid: id };
     // @ts-ignore
     dispatch(startCreatingNewRecord(newLog));
   }
@@ -22,10 +23,6 @@ export function AudioRecorderView() {
     const { value } = e.target;
     setTitle(value);
   }
-
-  useEffect(() => {
-    console.log(title);
-  }, [title]);
 
   return (
     <section className={styles.section}>
