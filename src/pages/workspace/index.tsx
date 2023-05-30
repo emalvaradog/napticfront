@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { startUserLogout } from "@/store/auth/authThunks";
 
 function Index() {
-  const [hasAccess, setHasAccess] = useState(false);
+  const [hasAccess, setHasAccess] = useState(true);
   const authUser = useAuthUser();
   const dispatch = useDispatch();
 
