@@ -28,25 +28,25 @@ function Index() {
   const authUser = useAuthUser();
   const dispatch = useDispatch();
 
-  // TODO: Delete this useEffect after waitlist ends :D
-  useEffect(() => {
-    const userHasAppAccess = async () => {
-      // @ts-ignore
-      const access = await userHasAccess(authUser.id);
-      return access;
-    };
+  // // TODO: Delete this useEffect after waitlist ends :D
+  // useEffect(() => {
+  //   const userHasAppAccess = async () => {
+  //     // @ts-ignore
+  //     const access = await userHasAccess(authUser.id);
+  //     return access;
+  //   };
 
-    userHasAppAccess()
-      .then((access) => {
-        if (!access) {
-          // @ts-ignore
-          dispatch(startUserLogout());
-          return;
-        }
-        setHasAccess(true);
-      })
-      .catch(console.error);
-  }, []);
+  //   userHasAppAccess()
+  //     .then((access) => {
+  //       if (!access) {
+  //         // @ts-ignore
+  //         dispatch(startUserLogout());
+  //         return;
+  //       }
+  //       setHasAccess(true);
+  //     })
+  //     .catch(console.error);
+  // }, []);
 
   const currentScreen: WorkSpaceScreen = useSelector(
     (state: RootState) => state.auth.currentScreen
