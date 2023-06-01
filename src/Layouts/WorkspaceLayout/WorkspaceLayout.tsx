@@ -15,7 +15,7 @@ export function WorkspaceLayout({
   aside: () => ReactElement;
   mainContent: () => ReactElement;
 }) {
-  const [windowSize, setWindowSize] = useState(window.innerWidth);
+  const [windowSize, setWindowSize] = useState(0);
   const { currentScreen } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
@@ -26,6 +26,10 @@ export function WorkspaceLayout({
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    setWindowSize(window.innerWidth);
   }, []);
 
   useEffect(() => {
