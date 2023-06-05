@@ -62,12 +62,10 @@ export const startCreatingNewRecord = ({
     dispatch(setAudiosStatus("loading"));
 
     try {
-      const fileUrl = await uploadFile2Storage(audioFile);
-
       const newRecordData = {
         id: "",
         title,
-        audios: [fileUrl],
+        audios: [],
         uploadedBy: uid,
         creationDate: new Date().toString(),
         chat: [],
