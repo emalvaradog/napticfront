@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { FirebaseAuth, FirebaseDB } from "./config";
 import {
   GoogleAuthProvider,
@@ -12,10 +12,11 @@ const googleProvider = new GoogleAuthProvider();
 
 export const signInUserWithGoogle = async () => {
   try {
-    await signInWithPopup(FirebaseAuth, googleProvider);
+    const user = await signInWithPopup(FirebaseAuth, googleProvider);
 
     return {
       ok: true,
+      user: user.user,
     };
   } catch (error: any) {
     return {
@@ -60,6 +61,21 @@ export const userHasAccess = async (uid: string) => {
   } catch (error) {
     return false;
   }
+};
+
+export const setUserData = async (uid: string) => {
+  try {
+    // TODO: check if user has stripe plan and set data
+    const userData = {
+      uid,
+      plan: "personal",
+      usedSeconds: 0,
+      purchased: [],
+      purchases: [],
+    };
+
+    await setDoc(doc(FirebaseDB, "users", uid), userData);
+  } catch (error) {}
 };
 
 export const logoutFirebaseUser = async () => {
