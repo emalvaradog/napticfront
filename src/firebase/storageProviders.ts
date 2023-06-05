@@ -12,11 +12,8 @@ import {
 } from "firebase/firestore";
 
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-
 import { FirebaseDB, FirebaseStorage } from "./config";
 import { Message, Record } from "@/interfaces/Record";
-
-const JWT_SECRET = "naptic-secret-jwt-key";
 
 export const getUserRecords = async (uid: string) => {
   const documents = [] as Record[];
