@@ -60,12 +60,13 @@ export const startCreatingNewRecord = ({
 }) => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     dispatch(setAudiosStatus("loading"));
+    const fileLocation = await uploadFile2Storage(audioFile);
 
     try {
       const newRecordData = {
         id: "",
         title,
-        audios: [],
+        audios: [fileLocation],
         uploadedBy: uid,
         creationDate: new Date().toString(),
         chat: [],
@@ -80,7 +81,6 @@ export const startCreatingNewRecord = ({
       const token = await uploadUserToken(uid);
 
       if (audioFile && uid && recordId) {
-        formData.append("audio_file", audioFile);
         formData.append("user_uid", uid);
         formData.append("record_id", recordId);
         formData.append("token", token);
