@@ -6,11 +6,17 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { startUserLogout } from "@/store/auth/authThunks";
 import { useAuthUser } from "next-firebase-auth";
+import { RootState } from "@/store/store";
+
+const plan = { free: "0", personal: "15", professional: "40" };
 
 export function WorkspaceHeader() {
   const authUser = useAuthUser();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { userPlan, secondsLeft } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const modalRef = useRef(null);
   const userRef = useRef(null);
@@ -72,8 +78,20 @@ export function WorkspaceHeader() {
               <path d="M9.5,10.5H12a1,1,0,0,0,0-2H11V8A1,1,0,0,0,9,8v.55a2.5,2.5,0,0,0,.5,4.95h1a.5.5,0,0,1,0,1H8a1,1,0,0,0,0,2H9V17a1,1,0,0,0,2,0v-.55a2.5,2.5,0,0,0-.5-4.95h-1a.5.5,0,0,1,0-1ZM21,12H18V3a1,1,0,0,0-.5-.87,1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0A1,1,0,0,0,2,3V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V13A1,1,0,0,0,21,12ZM5,20a1,1,0,0,1-1-1V4.73L6,5.87a1.08,1.08,0,0,0,1,0l3-1.72,3,1.72a1.08,1.08,0,0,0,1,0l2-1.14V19a3,3,0,0,0,.18,1Zm15-1a1,1,0,0,1-2,0V14h2Z"></path>
             </svg>
             <div>
-              <h4>Plan personal</h4>
-              <p>Horas restantes: 5/40</p>
+              <h4>Plan {userPlan}</h4>
+
+              <p>
+                Horas restantes:{" "}
+                {
+                  // @ts-ignore
+                  parseFloat(secondsLeft) / 3600
+                }
+                /
+                {
+                  // @ts-ignore
+                  plan[userPlan]
+                }
+              </p>
             </div>
           </div>
           <div className={styles.headerModalSession} onClick={handleLogout}>
