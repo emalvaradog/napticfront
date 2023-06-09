@@ -21,12 +21,20 @@ import {
 
 import { userHasAccess } from "@/firebase/authProviders";
 import { useEffect, useState } from "react";
-import { startUserLogout } from "@/store/auth/authThunks";
+import {
+  startUserLogout,
+  startUserPlanValidation,
+} from "@/store/auth/authThunks";
 
 function Index() {
   const [hasAccess, setHasAccess] = useState(true);
   const authUser = useAuthUser();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(startUserPlanValidation(authUser.id));
+  }, []);
 
   // // TODO: Delete this useEffect after waitlist ends :D
   // useEffect(() => {
