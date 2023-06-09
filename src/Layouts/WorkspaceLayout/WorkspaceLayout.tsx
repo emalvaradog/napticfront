@@ -30,7 +30,7 @@ export function WorkspaceLayout({
 
   useEffect(() => {
     setWindowSize(window.innerWidth);
-  }, [window.innerWidth]);
+  }, []);
 
   useEffect(() => {
     // @ts-ignore
