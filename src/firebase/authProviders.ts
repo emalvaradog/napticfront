@@ -63,19 +63,38 @@ export const userHasAccess = async (uid: string) => {
   }
 };
 
-export const setUserData = async (uid: string) => {
+export const userExists = async (uid: string) => {
+  try {
+    const userRef = doc(FirebaseDB, "users", uid);
+    const userDoc = await getDoc(userRef);
+    return userDoc.exists();
+  } catch (error) {
+    console.log({ error });
+    return false;
+  }
+};
+
+export const setUserPlanData = async (uid: string) => {
   try {
     // TODO: check if user has stripe plan and set data
     const userData = {
       uid,
-      plan: "personal",
-      usedSeconds: 0,
+      plan: "free",
+      creationDate: new Date().getTime(),
+      secondsLeft: 0,
       purchased: [],
       purchases: [],
     };
 
     await setDoc(doc(FirebaseDB, "users", uid), userData);
+    return userData;
   } catch (error) {}
+};
+
+export const getUserData = async (uid: string) => {
+  const userRef = doc(FirebaseDB, "users", uid);
+  const userDoc = await getDoc(userRef);
+  return userDoc.data();
 };
 
 export const logoutFirebaseUser = async () => {
