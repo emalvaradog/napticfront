@@ -179,8 +179,8 @@ export function Home() {
                     <path
                       fill="none"
                       stroke="#9082cb"
-                      stroke-miterlimit="10"
-                      stroke-width="2"
+                      strokeMiterlimit="10"
+                      strokeWidth="2"
                       d="M27 20.972H9M27 16.972H9M27 12.972H16M27 8.972H16"
                     ></path>
                     <circle cx="11.5" cy="11.528" r="2.5"></circle>
@@ -188,7 +188,7 @@ export function Home() {
                     <path
                       fill="none"
                       stroke="#9082cb"
-                      stroke-miterlimit="10"
+                      strokeMiterlimit="10"
                       d="M6 8.028a3.502 3.502 0 00-3.5 3.5M13 8.028a3.502 3.502 0 00-3.5 3.5"
                     ></path>
                   </svg>
