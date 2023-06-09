@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: AuthState = {
   currentScreen: WorkSpaceScreen.Home,
+  userPlan: null,
+  secondsLeft: null,
 };
 
 export const authSlice = createSlice({
@@ -16,7 +18,12 @@ export const authSlice = createSlice({
     clearAuthState: (state) => {
       state.currentScreen = WorkSpaceScreen.Home;
     },
+    setUserData: (state, { payload }) => {
+      state.userPlan = payload.userPlan;
+      state.secondsLeft = payload.secondsLeft;
+    },
   },
 });
 
-export const { setCurrentScreen, clearAuthState } = authSlice.actions;
+export const { setCurrentScreen, clearAuthState, setUserData } =
+  authSlice.actions;
